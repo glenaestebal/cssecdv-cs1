@@ -257,7 +257,15 @@ public class Frame extends javax.swing.JFrame {
     }
     
     public void registerAction(String username, String password, String confpass){
-        main.sqlite.addUser(username, password);
+        if (password.equals(confpass))  {
+            main.sqlite.addUser(username, password);
+            this.loginNav();
+        } else    {
+           registerPnl.getPasswordMismatchComponent().setVisible(true);
+           registerPnl.clearFields();
+           
+        }
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
