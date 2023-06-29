@@ -123,7 +123,7 @@ public class Register extends javax.swing.JPanel {
     }
     
     public void registerClearFields() {
-        this.usernameFld.setText(null);
+//        this.usernameFld.setText(null);
         this.passwordFld.setText(null);
         this.confpassFld.setText(null);
     }
