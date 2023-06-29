@@ -282,9 +282,8 @@ public class SQLite {
     }
     
     public void addUser(String username, String password, int role) {
-        // Check password complexity
         
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());  //hash password using BCrypt before adding to dB
         String sql = "INSERT INTO users (username, password, role) VALUES ('" + username + "', '" + hashedPassword + "', " + role + ")";
         
         try (Connection conn = DriverManager.getConnection(driverURL);
