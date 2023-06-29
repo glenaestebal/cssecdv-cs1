@@ -105,13 +105,40 @@ public class Register extends javax.swing.JPanel {
                 .addComponent(registerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(64, Short.MAX_VALUE))
         );
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:
+    
+    private boolean isPasswordValid(String password) {
+        return password.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%^&+=]).{8,}$");
+    }
 
-    private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
-        frame.registerAction(usernameFld.getText(), passwordFld.getText(), confpassFld.getText());
+    private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        String username = usernameFld.getText();
+        String password = passwordFld.getText();
+        String confirmPassword = confpassFld.getText();
+
+        // Perform password complexity check
+        if (!isPasswordValid(password)) {
+            passwordMismatch.setText("Password must have at least 8 characters and contain a combination of letters, numbers, and special characters.");
+            passwordMismatch.setVisible(true);
+            return;
+        }
+
+        // Check if passwords match
+        if (!password.equals(confirmPassword)) {
+            passwordMismatch.setText("Passwords do not match.");
+            passwordMismatch.setVisible(true);
+            return;
+        }
+        
+        // Call the registerAction method in the Frame class
+        frame.registerAction(username, password, confirmPassword);
         this.registerClearFields();
-    }//GEN-LAST:event_registerBtnActionPerformed
+    }
 
+
+
+
+    
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         frame.loginNav();
         passwordMismatch.setVisible(false);
