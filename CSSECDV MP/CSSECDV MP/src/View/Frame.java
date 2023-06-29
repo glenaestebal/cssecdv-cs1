@@ -1,9 +1,11 @@
 package View;
 
 import Controller.Main;
+import Model.User;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import javax.swing.WindowConstants;
 
 public class Frame extends javax.swing.JFrame {
@@ -250,19 +252,44 @@ public class Frame extends javax.swing.JFrame {
     
     public void loginNav(){
         frameView.show(Container, "loginPnl");
+        
+    }
+    
+    public void loginAction(String username, String password)   {
+        ArrayList<User> users = main.sqlite.getUsers();
+        User newUser = new User(username, password);
+        if (username.isBlank() || password.isBlank()){
+            loginPnl.getIncorrectCredentialsComponent().setVisible(true);
+            return;
+        }
+        
+        if (users.contains(newUser)){
+            this.mainNav();
+        } else {
+            loginPnl.getIncorrectCredentialsComponent().setVisible(true);
+            loginPnl.loginClearFields();   
+        }
+
     }
     
     public void registerNav(){
         frameView.show(Container, "registerPnl");
+        
     }
     
     public void registerAction(String username, String password, String confpass){
+        
+        if (username.isBlank() || password.isBlank() || confpass.isBlank()) {
+            registerPnl.getPasswordMismatchComponent().setVisible(true);
+            return;
+        }
+        
         if (password.equals(confpass))  {
             main.sqlite.addUser(username, password);
             this.loginNav();
         } else    {
            registerPnl.getPasswordMismatchComponent().setVisible(true);
-           registerPnl.clearFields();
+           registerPnl.registerClearFields();
            
         }
         

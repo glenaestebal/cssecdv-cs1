@@ -109,24 +109,26 @@ public class Register extends javax.swing.JPanel {
 
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
         frame.registerAction(usernameFld.getText(), passwordFld.getText(), confpassFld.getText());
-        this.clearFields();
+        this.registerClearFields();
     }//GEN-LAST:event_registerBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
         frame.loginNav();
         passwordMismatch.setVisible(false);
-        this.clearFields();
+        this.registerClearFields();
     }//GEN-LAST:event_backBtnActionPerformed
 
     public javax.swing.JLabel getPasswordMismatchComponent()    {
         return this.passwordMismatch;
     }
     
-    public void clearFields() {
+    public void registerClearFields() {
         this.usernameFld.setText(null);
         this.passwordFld.setText(null);
         this.confpassFld.setText(null);
     }
+    
+    
     
     
     
@@ -140,4 +142,6 @@ public class Register extends javax.swing.JPanel {
     private javax.swing.JButton registerBtn;
     private javax.swing.JTextField usernameFld;
     // End of variables declaration//GEN-END:variables
+
+
 }
