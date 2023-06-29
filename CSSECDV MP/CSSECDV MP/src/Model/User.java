@@ -59,4 +59,10 @@ public class User {
     public void setLocked(int locked) {
         this.locked = locked;
     }
+    
+    @Override
+    public boolean equals(Object obj){
+        User otherUser = (User) obj;
+        return this.username.equals(otherUser.username) && this.password.equals(otherUser.password);
+    }
 }
