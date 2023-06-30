@@ -278,6 +278,7 @@ public class Frame extends javax.swing.JFrame {
     public void loginAction(String username, String password)   {
         ArrayList<User> users = main.sqlite.getUsers();
         ArrayList<Logs> logs = main.sqlite.getLogs();
+        password = main.sqlite.hashPassword(password);
         User newUser = new User(username, password);
         if (username.isBlank() || password.isBlank()){
             loginPnl.getIncorrectCredentialsComponent().setVisible(true);

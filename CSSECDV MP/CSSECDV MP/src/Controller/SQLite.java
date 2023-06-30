@@ -268,7 +268,7 @@ public class SQLite {
     }
     
         // Function to hash the password using SHA-256
-    private String hashPassword(String password) {
+    public String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
