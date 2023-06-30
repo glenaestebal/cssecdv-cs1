@@ -282,7 +282,6 @@ public class Frame extends javax.swing.JFrame {
         }
         
         if (users.contains(newUser)){
-            
             for (User user : users) {
                 if (user.getUsername().equals(username)){
                     if (user.getLocked()==0){
@@ -327,12 +326,12 @@ public class Frame extends javax.swing.JFrame {
                             staffBtn.setVisible(false);
                             clientBtn.setVisible(false);
                         }
+                        return;
                     }
-                    return;
-                }
-                else {
-                    main.sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
-                    JOptionPane.showMessageDialog(null, "Account locked due to multiple unsuccessful login attempts!");
+                    else {
+                        main.sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
+                        JOptionPane.showMessageDialog(null, "Account locked due to multiple unsuccessful login attempts!");
+                    }
                     return;
                 }
             }
