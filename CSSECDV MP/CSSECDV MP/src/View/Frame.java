@@ -207,6 +207,7 @@ public class Frame extends javax.swing.JFrame {
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         frameView.show(Container, "loginPnl");
+        loginPnl.loginClearFields();
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     public Main main;
