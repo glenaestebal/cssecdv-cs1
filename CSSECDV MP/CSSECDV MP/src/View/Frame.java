@@ -211,6 +211,10 @@ public class Frame extends javax.swing.JFrame {
     public Main main;
     public Login loginPnl = new Login();
     public Register registerPnl = new Register();
+
+    //Password Reset Panels
+    public RequestReset requestPnl = new RequestReset();
+    public ResetPassword resetPnl = new ResetPassword();
     
     private AdminHome adminHomePnl = new AdminHome();
     private ManagerHome managerHomePnl = new ManagerHome();
@@ -238,6 +242,11 @@ public class Frame extends javax.swing.JFrame {
         Container.add(loginPnl, "loginPnl");
         Container.add(registerPnl, "registerPnl");
         Container.add(HomePnl, "homePnl");
+
+        //Password Reset Panels
+        Container.add(requestPnl, "requestPnl");
+        Container.add(resetPnl, "resetPnl");
+
         frameView.show(Container, "loginPnl");
         
         Content.setLayout(contentView);
@@ -355,7 +364,7 @@ public class Frame extends javax.swing.JFrame {
         }
         
         if (password.equals(confpass))  {
-            main.sqlite.addUser(username, password);
+            main.sqlite.addUser(username, password, 2);
             this.loginNav();
         } else    {
            registerPnl.getPasswordMismatchComponent().setVisible(true);
@@ -363,6 +372,40 @@ public class Frame extends javax.swing.JFrame {
            
         }
         
+    }
+
+     //Sets username as a variable
+       public void setUsername(String u){
+        this.username = u;
+    }
+
+    //Sets username as a variable
+    public String getUsername(){
+        return this.username;
+    }
+
+     //Password Reset Request Page Navigation
+     public void requestNav(){
+        frameView.show(Container, "requestPnl");
+    }
+
+    //Password Reset Request Page Navigation
+    public void resetNav(){
+        frameView.show(Container, "resetPnl");
+    }
+
+    //Reset Password Function
+    public void resetPassword(String username, String newPassword){
+        main.sqlite.modPassword(username, newPassword);
+    }
+    
+    public void registerUser(String username, String password, String confpass){
+        main.sqlite.addUser(username, password, 2);
+    }
+
+    //Finds User in Database
+    public boolean findUser(String username){
+        return main.sqlite.findUser(username);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -377,4 +420,7 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JButton managerBtn;
     private javax.swing.JButton staffBtn;
     // End of variables declaration//GEN-END:variables
+
+    //User's Username
+    private String username;
 }
