@@ -11,6 +11,8 @@ import javax.swing.WindowConstants;
 import java.sql.Timestamp;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import org.mindrot.jbcrypt.BCrypt;
+
 
 public class Frame extends javax.swing.JFrame {
 
@@ -276,90 +278,81 @@ public class Frame extends javax.swing.JFrame {
     }
     
     public void loginAction(String username, String password)   {
-        ArrayList<User> users = main.sqlite.getUsers();
-        ArrayList<Logs> logs = main.sqlite.getLogs();
-        password = main.sqlite.hashPassword(password);
-        User newUser = new User(username, password);
+        User user = main.sqlite.getUser(username);
         if (username.isBlank() || password.isBlank()){
             loginPnl.getIncorrectCredentialsComponent().setVisible(true);
             return;
         }
         
-        if (users.contains(newUser)){
-            for (User user : users) {
-                if (user.getUsername().equals(username)){
-                    if (user.getLocked()==0){
-                        this.mainNav();
-                        if (user.getRole() == 1){
-                            clientHomePnl.showPnl("home");
-                            contentView.show(Content, "clientHomePnl");
-                            adminBtn.setVisible(false);
-                            managerBtn.setVisible(false);
-                            staffBtn.setVisible(false);
-                            clientBtn.setVisible(false);
-                        }
-                        if (user.getRole() == 2){
-                            clientHomePnl.showPnl("home");
-                            contentView.show(Content, "clientHomePnl");
-                            adminBtn.setVisible(false);
-                            managerBtn.setVisible(false);
-                            staffBtn.setVisible(false);
-                            clientBtn.setVisible(false);
-                        }
-                        if (user.getRole() == 3){
-                            staffHomePnl.showPnl("home");
-                            contentView.show(Content, "staffHomePnl");
-                            adminBtn.setVisible(false);
-                            managerBtn.setVisible(false);
-                            staffBtn.setVisible(false);
-                            clientBtn.setVisible(false);
-                        }
-                        if (user.getRole() == 4){
-                            managerHomePnl.showPnl("home");
-                            contentView.show(Content, "managerHomePnl");
-                            adminBtn.setVisible(false);
-                            managerBtn.setVisible(false);
-                            staffBtn.setVisible(false);
-                            clientBtn.setVisible(false);
-                        }
-                        if (user.getRole() == 5){
-                            adminHomePnl.showPnl("home");
-                            contentView.show(Content, "adminHomePnl");
-                            adminBtn.setVisible(false);
-                            managerBtn.setVisible(false);
-                            staffBtn.setVisible(false);
-                            clientBtn.setVisible(false);
-                        }
-                        return;
-                    }
-                    else {
-                        main.sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
-                        JOptionPane.showMessageDialog(null, "Account locked due to multiple unsuccessful login attempts!");
-                    }
-                    return;
-                }
-            }
-        } else {
-            for (User user : users) {
-                if (user.getUsername().equals(username)) {
-                    main.sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
-                    int count = 1;
-                    for (Logs log : logs) {
-                        if (log.getUsername().equals(username) && log.getDesc().equals("login attempt unsuccessful")) {
-                            //if Logs has 5 unsuccessful attempts in a day, lock account
-                            count++;
-                        }
-                    }
-                    if(count >= 5){
-                        main.sqlite.setUserLockedStatus(username, 1);
-                        JOptionPane.showMessageDialog(null, "Account locked due to multiple unsuccessful login attempts!");
-                    }
-                }
-            }
-            loginPnl.getIncorrectCredentialsComponent().setVisible(true);
-            loginPnl.loginClearFields();  
-            
+        if(user == null){
+            JOptionPane.showMessageDialog(null, "User not found!");
+            loginPnl.loginClearFields(); 
+            return;
         }
+        
+        boolean isPasswordCorrect = BCrypt.checkpw(password, user.getPassword());
+        if (isPasswordCorrect){
+                if (user.getLocked()==0){
+                    this.mainNav();
+                    if (user.getRole() == 1){
+                        clientHomePnl.showPnl("home");
+                        contentView.show(Content, "clientHomePnl");
+                        adminBtn.setVisible(false);
+                        managerBtn.setVisible(false);
+                        staffBtn.setVisible(false);
+                        clientBtn.setVisible(false);
+                    }
+                    if (user.getRole() == 2){
+                        clientHomePnl.showPnl("home");
+                        contentView.show(Content, "clientHomePnl");
+                        adminBtn.setVisible(false);
+                        managerBtn.setVisible(false);
+                        staffBtn.setVisible(false);
+                        clientBtn.setVisible(false);
+                    }
+                    if (user.getRole() == 3){
+                        staffHomePnl.showPnl("home");
+                        contentView.show(Content, "staffHomePnl");
+                        adminBtn.setVisible(false);
+                        managerBtn.setVisible(false);
+                        staffBtn.setVisible(false);
+                        clientBtn.setVisible(false);
+                    }
+                    if (user.getRole() == 4){
+                        managerHomePnl.showPnl("home");
+                        contentView.show(Content, "managerHomePnl");
+                        adminBtn.setVisible(false);
+                        managerBtn.setVisible(false);
+                        staffBtn.setVisible(false);
+                        clientBtn.setVisible(false);
+                    }
+                    if (user.getRole() == 5){
+                        adminHomePnl.showPnl("home");
+                        contentView.show(Content, "adminHomePnl");
+                        adminBtn.setVisible(false);
+                        managerBtn.setVisible(false);
+                        staffBtn.setVisible(false);
+                        clientBtn.setVisible(false);
+                    }
+                } else {
+                    main.sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
+                    JOptionPane.showMessageDialog(null, "Account locked due to multiple unsuccessful login attempts!");
+                }
+            
+        } else {
+                main.sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
+                ArrayList<Logs> unsuccessfulAttempts = main.sqlite.getUnsuccessfulAttempts(username);
+                
+                loginPnl.getIncorrectCredentialsComponent().setVisible(true);
+                loginPnl.loginClearFields(); 
+                if(unsuccessfulAttempts.size() >= 5){
+                    user.setLocked(1);
+                    main.sqlite.setUserLockedStatus(username, user.getLocked());
+                    JOptionPane.showMessageDialog(null, "Account locked due to multiple unsuccessful login attempts!");
+                }
+        }
+            
+            
 
     }
     

@@ -5,6 +5,7 @@ import Model.Logs;
 import Model.Product;
 import Model.User;
 
+import org.mindrot.jbcrypt.BCrypt;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -228,6 +229,28 @@ public class SQLite {
         return logs;
     }
     
+    public ArrayList<Logs> getUnsuccessfulAttempts(String username){
+        String TOKEN = "login attempt unsuccessful";
+        String sql = "SELECT id, event, username, desc, timestamp FROM logs WHERE username = '" + username + "' AND " + "desc = '" + TOKEN +"'";
+        ArrayList<Logs> logs = new ArrayList<Logs>();
+        try (Connection conn = DriverManager.getConnection(driverURL);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+            
+            while (rs.next()) {
+                logs.add(new Logs(rs.getInt("id"),
+                                   rs.getString("event"),
+                                   rs.getString("username"),
+                                   rs.getString("desc"),
+                                   rs.getString("timestamp")));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return logs;
+
+    }
+    
     public ArrayList<Product> getProduct(){
         String sql = "SELECT id, name, stock, price FROM product";
         ArrayList<Product> products = new ArrayList<Product>();
@@ -268,7 +291,7 @@ public class SQLite {
     }
     
         // Function to hash the password using SHA-256
-    public String hashPassword(String password) {
+    private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
@@ -294,8 +317,7 @@ public class SQLite {
     
     public void addUser(String username, String password, int role) {
         // Check password complexity
-        
-        String hashedPassword = hashPassword(password);
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
         String sql = "INSERT INTO users (username, password, role) VALUES ('" + username + "', '" + hashedPassword + "', " + role + ")";
         
         try (Connection conn = DriverManager.getConnection(driverURL);
@@ -344,6 +366,28 @@ public class SQLite {
             System.out.print(e);
         }
         return userExists;
+    }
+    
+    public User getUser(String username){
+        String stmt = "SELECT * FROM users WHERE username = ?";
+        User user = null;
+        try (Connection conn = DriverManager.getConnection(driverURL);
+             PreparedStatement pst = conn.prepareStatement(stmt)) {
+            pst.setString(1, username);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                System.out.println("Username '" + username + "' found!");
+                user = new User(rs.getInt("id"),
+                                   rs.getString("username"),
+                                   rs.getString("password"),
+                                   rs.getInt("role"),
+                                   rs.getInt("locked"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
     
     public void removeUser(String username) {
