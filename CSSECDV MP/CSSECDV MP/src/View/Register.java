@@ -1,8 +1,6 @@
 
 package View;
 
-import Controller.SQLite;
-
 public class Register extends javax.swing.JPanel {
 
     public Frame frame;
@@ -113,8 +111,6 @@ public class Register extends javax.swing.JPanel {
         return password.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%^&+=]).{8,}$");
     }
 
-    // In the Register class
-
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {
         String username = usernameFld.getText();
         String password = passwordFld.getText();
@@ -133,20 +129,11 @@ public class Register extends javax.swing.JPanel {
             passwordMismatch.setVisible(true);
             return;
         }
-
-        // Create an instance of the SQLite class
-        SQLite sqlite = new SQLite();
-
-        // Hash the password
-        String hashedPassword = sqlite.hashPassword(password);
-
-        // Call the addUser method on the SQLite instance with the hashed password
-        sqlite.addUser(username, hashedPassword);
-
+        
+        // Call the registerAction method in the Frame class
+        frame.registerAction(username, password, confirmPassword);
         this.registerClearFields();
     }
-
-
 
 
 

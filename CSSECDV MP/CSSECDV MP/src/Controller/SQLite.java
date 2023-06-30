@@ -182,7 +182,26 @@ public class SQLite {
         } catch (Exception ex) {
             System.out.print(ex);
         }
-    }   
+    }
+    
+    public void addUser(String username, String password) {
+        String sql = "INSERT INTO users(username,password) VALUES('" + username + "','" + password + "')";
+        
+        try (Connection conn = DriverManager.getConnection(driverURL);
+            Statement stmt = conn.createStatement()){
+            stmt.execute(sql);
+            
+//      PREPARED STATEMENT EXAMPLE
+//      String sql = "INSERT INTO users(username,password) VALUES(?,?)";
+//      PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//      pstmt.setString(1, username);
+//      pstmt.setString(2, password);
+//      pstmt.executeUpdate();
+        } catch (Exception ex) {
+            System.out.print(ex);
+        }
+    }
+    
     
     public ArrayList<History> getHistory(){
         String sql = "SELECT id, username, name, stock, timestamp FROM history";
@@ -265,6 +284,7 @@ public class SQLite {
         return users;
     }
     
+        // Function to hash the password using SHA-256
     private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -276,24 +296,31 @@ public class SQLite {
         return null;
     }
 
+    // Helper function to convert bytes to hexadecimal
+    private String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (byte b : hash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
     public void addUser(String username, String password, int role) {
+        
         String hashedPassword = hashPassword(password);
-        System.out.println("Hashed Password: " + hashedPassword); // Print hashed password for tracing purposes
-
-        String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
-
+        String sql = "INSERT INTO users (username, password, role) VALUES ('" + username + "', '" + hashedPassword + "', " + role + ")";
+        
         try (Connection conn = DriverManager.getConnection(driverURL);
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, username);
-            pstmt.setString(2, hashedPassword);
-            pstmt.setInt(3, role);
-            pstmt.executeUpdate();
+            Statement stmt = conn.createStatement()){
+            stmt.execute(sql);
         } catch (Exception ex) {
             System.out.print(ex);
         }
     }
-
-
 
     private boolean isPasswordComplex(String password) {
         if (password.length() < 8) {
