@@ -162,7 +162,10 @@ public class ResetPassword extends javax.swing.JPanel {
                         confirm = null;
                         break;
                     case 6:
-                        System.out.println(password.length());
+                        if(confirm.isEmpty() || !(password.equals(confirm))){
+                            JOptionPane.showMessageDialog(null, "Confirm Password"); 
+                        }
+                        else{
                         resetcodeFld.setText("");
                         passwordFld.setText("");
                         confpassFld.setText("");
@@ -171,7 +174,10 @@ public class ResetPassword extends javax.swing.JPanel {
                         password = null;
                         confirm = null;
                         frame.loginNav();
+                        }
                 }
+
+                
             }
         }
 
