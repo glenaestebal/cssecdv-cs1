@@ -114,6 +114,7 @@ public class Login extends javax.swing.JPanel {
 
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
         frame.registerNav();
+        incorrectCredentials.setVisible(false);
     }//GEN-LAST:event_registerBtnActionPerformed
 
     private void requestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
