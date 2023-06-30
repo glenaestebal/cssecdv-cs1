@@ -310,11 +310,11 @@ public class SQLite {
     //Modifies Password
     public synchronized void modPassword(String u, String p) {
         String sql = "UPDATE users SET password=? WHERE username=?;";
-        p = hashPassword(p);
+        String hashedPassword = hashPassword(p);
 
         try (Connection conn = DriverManager.getConnection(driverURL);
              PreparedStatement pst = conn.prepareStatement(sql)) {
-            pst.setString(1,p);
+            pst.setString(1,hashedPassword);
             pst.setString(2,u);
             pst.executeUpdate();
             pst.close();
