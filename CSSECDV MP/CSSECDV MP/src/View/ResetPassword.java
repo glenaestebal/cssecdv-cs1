@@ -126,7 +126,6 @@ public class ResetPassword extends javax.swing.JPanel {
             }
 
             else{
-                //If password is too short
                 int check = frame.checkPassword(password);
 
                 //If confirmation is empty
