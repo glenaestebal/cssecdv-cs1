@@ -25,11 +25,8 @@ public class RequestReset extends javax.swing.JPanel {
         inputFld = new JTextField();
         backBtn = new javax.swing.JButton();
 
-        //Frame
-        frame = new Frame();
-
         //Password Change Btn
-        sendBtn = new JButton();
+        sendBtn = new javax.swing.JButton();
 
         jLabel1.setFont(new Font("Tahoma", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(SwingConstants.CENTER);

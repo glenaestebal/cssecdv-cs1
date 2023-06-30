@@ -7,7 +7,6 @@ import Controller.SQLite;
 public class ResetPassword extends javax.swing.JPanel {
 
     public Frame frame;
-    public SQLite sqlite;
 
     public ResetPassword() {
         initComponents();
@@ -23,7 +22,6 @@ public class ResetPassword extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         confpassFld = new javax.swing.JPasswordField();
         backBtn = new javax.swing.JButton();
-        sqlite = new SQLite();
 
         confirmBtn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         confirmBtn.setText("CONFIRM");
