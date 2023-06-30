@@ -276,22 +276,42 @@ public class Frame extends javax.swing.JFrame {
                         if (user.getRole() == 1){
                             clientHomePnl.showPnl("home");
                             contentView.show(Content, "clientHomePnl");
+                            adminBtn.setVisible(false);
+                            managerBtn.setVisible(false);
+                            staffBtn.setVisible(false);
+                            clientBtn.setVisible(false);
                         }
                         if (user.getRole() == 2){
                             clientHomePnl.showPnl("home");
                             contentView.show(Content, "clientHomePnl");
+                            adminBtn.setVisible(false);
+                            managerBtn.setVisible(false);
+                            staffBtn.setVisible(false);
+                            clientBtn.setVisible(false);
                         }
                         if (user.getRole() == 3){
                             staffHomePnl.showPnl("home");
                             contentView.show(Content, "staffHomePnl");
+                            adminBtn.setVisible(false);
+                            managerBtn.setVisible(false);
+                            staffBtn.setVisible(false);
+                            clientBtn.setVisible(false);
                         }
                         if (user.getRole() == 4){
                             managerHomePnl.showPnl("home");
                             contentView.show(Content, "managerHomePnl");
+                            adminBtn.setVisible(false);
+                            managerBtn.setVisible(false);
+                            staffBtn.setVisible(false);
+                            clientBtn.setVisible(false);
                         }
                         if (user.getRole() == 5){
                             adminHomePnl.showPnl("home");
                             contentView.show(Content, "adminHomePnl");
+                            adminBtn.setVisible(false);
+                            managerBtn.setVisible(false);
+                            staffBtn.setVisible(false);
+                            clientBtn.setVisible(false);
                         }
                     }
                 }
