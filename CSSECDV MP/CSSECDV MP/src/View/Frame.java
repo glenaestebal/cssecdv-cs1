@@ -328,10 +328,12 @@ public class Frame extends javax.swing.JFrame {
                             clientBtn.setVisible(false);
                         }
                     }
+                    return;
                 }
                 else {
                     main.sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
                     JOptionPane.showMessageDialog(null, "Account locked due to multiple unsuccessful login attempts!");
+                    return;
                 }
             }
         } else {
@@ -352,7 +354,8 @@ public class Frame extends javax.swing.JFrame {
                 }
             }
             loginPnl.getIncorrectCredentialsComponent().setVisible(true);
-            loginPnl.loginClearFields();   
+            loginPnl.loginClearFields();  
+            
         }
 
     }
