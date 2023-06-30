@@ -11,7 +11,6 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -317,59 +316,12 @@ public class SQLite {
         try (Connection conn = DriverManager.getConnection(driverURL);
             Statement stmt = conn.createStatement()){
             stmt.execute(sql);
+            
         } catch (Exception ex) {
             System.out.print(ex);
         }
     }
-
-    private boolean isPasswordComplex(String password) {
-        if (password.length() < 8) {
-            return false; // Password should have at least 8 characters
-        }
-        
-        if (!password.matches(".*[A-Z].*")) {
-            return false; // Password should contain at least one uppercase letter
-        }
-        
-        if (!password.matches(".*[a-z].*")) {
-            return false; // Password should contain at least one lowercase letter
-        }
-        
-        if (!password.matches(".*\\d.*")) {
-            return false; // Password should contain at least one numerical digit
-        }
-        
-        if (!password.matches(".*[!@#$%^&*()].*")) {
-            return false; // Password should contain at least one special character
-        }
-        
-        return true;
-    }
-
-    //Function to find User
-    public boolean findUser(String u){
-        boolean userExists = false;
-        String stmt = "SELECT * FROM users ORDER BY user_Name desc";
-
-        try (Connection conn = DriverManager.getConnection(driverURL)) {
-            PreparedStatement pst = conn.prepareStatement(stmt);
-            ResultSet rs = pst.executeQuery();
-
-            String usernamePool;
-            if (rs.next()) {
-                usernamePool = rs.getString("user_Name");//column name
-                if (usernamePool.equals(u)) {
-                    userExists = true;
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.print(e);
-        }
-
-        return userExists;
-    }
-
+    
     public void removeUser(String username) {
         String sql = "DELETE FROM users WHERE username='" + username + "';";
 
