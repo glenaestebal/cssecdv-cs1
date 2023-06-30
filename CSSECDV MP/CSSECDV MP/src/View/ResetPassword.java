@@ -125,8 +125,16 @@ public class ResetPassword extends javax.swing.JPanel {
                 confirm = null;
             }
 
+            //If password is too short
+            if (password.length() < 10) {
+                jLabel1.setText("Enter a longer password");
+                resetcode = null;
+                password = null;
+                confirm = null;
+            }
+
             //If confirmation is empty
-            else if (confirm.isEmpty()) {
+            if (confirm.isEmpty()) {
                 jLabel1.setText("Confirm password");
                 resetcode = null;
                 password = null;
@@ -134,7 +142,7 @@ public class ResetPassword extends javax.swing.JPanel {
             }
 
             //If password is confirmation don't match
-            else if (!password.equals(confirm)) {
+            if (!password.equals(confirm)) {
                 jLabel1.setText("Password confirmation incorrect");
                 resetcode = null;
                 password = null;
