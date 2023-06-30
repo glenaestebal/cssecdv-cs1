@@ -1,10 +1,13 @@
 package Controller;
 
-import org.mindrot.jbcrypt.BCrypt;
 import Model.History;
 import Model.Logs;
 import Model.Product;
 import Model.User;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -281,9 +284,34 @@ public class SQLite {
         return users;
     }
     
+        // Function to hash the password using SHA-256
+    private String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+            return bytesToHex(encodedHash);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Helper function to convert bytes to hexadecimal
+    private String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (byte b : hash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
     public void addUser(String username, String password, int role) {
         
-        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());  //hash password using BCrypt before adding to dB
+        String hashedPassword = hashPassword(password);
         String sql = "INSERT INTO users (username, password, role) VALUES ('" + username + "', '" + hashedPassword + "', " + role + ")";
         
         try (Connection conn = DriverManager.getConnection(driverURL);
