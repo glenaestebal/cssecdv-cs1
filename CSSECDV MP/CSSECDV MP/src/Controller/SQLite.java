@@ -329,6 +329,31 @@ public class SQLite {
         }
     }
 
+    //Checks Password Complexity
+    public int isPasswordComplex(String password) {
+        if (password.length() < 8) {
+            return 1; // Password should have at least 8 characters
+        }
+
+        if (!password.matches(".*[A-Z].*")) {
+            return 2; // Password should contain at least one uppercase letter
+        }
+
+        if (!password.matches(".*[a-z].*")) {
+            return 3; // Password should contain at least one lowercase letter
+        }
+
+        if (!password.matches(".*\\d.*")) {
+            return 4; // Password should contain at least one numerical digit
+        }
+
+        if (!password.matches(".*[!@#$%^&*()].*")) {
+            return 5; // Password should contain at least one special character
+        }
+
+        return 6;
+    }
+
     //Modifies Password
     public synchronized void modPassword(String u, String p) {
         String sql = "UPDATE users SET password=? WHERE username=?;";
