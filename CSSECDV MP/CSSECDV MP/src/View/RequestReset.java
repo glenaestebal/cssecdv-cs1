@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 //This Class is used to send a reset code
 //It is assumed that the server will send a code to the user's email
+//IRL: Sends resetcode to dummy email linked to account
 public class RequestReset extends javax.swing.JPanel {
     public Frame frame;
 
@@ -87,7 +88,7 @@ public class RequestReset extends javax.swing.JPanel {
         inputFld.setText("");
 
         if(!(email.contains("@") && email.contains(".com"))){
-            jLabel1.setText("Enter a valid username");  //Invalid Username
+            jLabel1.setText("Enter a valid username");  //Invalid Email
         }
 
         else{
