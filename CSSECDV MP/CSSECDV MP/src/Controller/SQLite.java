@@ -13,6 +13,7 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -306,27 +307,41 @@ public class SQLite {
         }
     }
 
-    //Function to find User
-    public boolean findUser(String u){
-        boolean userExists = false;
-        String stmt = "SELECT * FROM users ORDER BY user_Name desc";
+    //Modifies Password
+    public synchronized void modPassword(String u, String p) {
+        String sql = "UPDATE users SET password=? WHERE username=?;";
 
-        try (Connection conn = DriverManager.getConnection(driverURL)) {
-            PreparedStatement pst = conn.prepareStatement(stmt);
+        try (Connection conn = DriverManager.getConnection(driverURL);
+             PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1,p);
+            pst.setString(2,u);
+            pst.executeUpdate();
+            pst.close();
+            conn.close();
+        }
+    catch(SQLException e){
+        System.out.println(e.getMessage());
+    }
+}
+
+    //Function to find User
+    public synchronized boolean findUser(String u){
+        boolean userExists = false;
+        String stmt = "SELECT * FROM users WHERE username = ?";
+
+        try (Connection conn = DriverManager.getConnection(driverURL);
+             PreparedStatement pst = conn.prepareStatement(stmt)) {
+            pst.setString(1, u);
             ResultSet rs = pst.executeQuery();
 
-            String usernamePool;
             if (rs.next()) {
-                usernamePool = rs.getString("user_Name");//column name
-                if (usernamePool.equals(u)) {
-                    userExists = true;
-                }
+                System.out.println("Username '" + u + "' found!");
+                userExists = true;
             }
-
+            conn.close();
         } catch (Exception e) {
             System.out.print(e);
         }
-
         return userExists;
     }
     
