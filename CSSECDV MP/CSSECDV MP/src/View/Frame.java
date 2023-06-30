@@ -1,12 +1,15 @@
 package View;
 
 import Controller.Main;
+import Model.Logs;
 import Model.User;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import javax.swing.WindowConstants;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class Frame extends javax.swing.JFrame {
 
@@ -257,6 +260,7 @@ public class Frame extends javax.swing.JFrame {
     
     public void loginAction(String username, String password)   {
         ArrayList<User> users = main.sqlite.getUsers();
+        ArrayList<Logs> logs = main.sqlite.getLogs();
         User newUser = new User(username, password);
         if (username.isBlank() || password.isBlank()){
             loginPnl.getIncorrectCredentialsComponent().setVisible(true);
@@ -265,7 +269,53 @@ public class Frame extends javax.swing.JFrame {
         
         if (users.contains(newUser)){
             this.mainNav();
+            
+            for (User user : users) {
+                if (user.getLocked()==0){
+                    if (user.getUsername().equals(username)) {
+                        if (user.getRole() == 1){
+                            clientHomePnl.showPnl("home");
+                            contentView.show(Content, "clientHomePnl");
+                        }
+                        if (user.getRole() == 2){
+                            clientHomePnl.showPnl("home");
+                            contentView.show(Content, "clientHomePnl");
+                        }
+                        if (user.getRole() == 3){
+                            staffHomePnl.showPnl("home");
+                            contentView.show(Content, "staffHomePnl");
+                        }
+                        if (user.getRole() == 4){
+                            managerHomePnl.showPnl("home");
+                            contentView.show(Content, "managerHomePnl");
+                        }
+                        if (user.getRole() == 5){
+                            adminHomePnl.showPnl("home");
+                            contentView.show(Content, "adminHomePnl");
+                        }
+                    }
+                }
+                else {
+                    main.sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
+                    //loginPnl locked out message
+                }
+            }
         } else {
+            for (User user : users) {
+                if (user.getUsername().equals(username)) {
+                    main.sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
+                    int count = 1;
+                    for (Logs log : logs) {
+                        if (log.getUsername().equals(username) && log.getDesc().equals("login attempt unsuccessful")) {
+                            //if Logs has 5 unsuccessful attempts in a day, lock account
+                            count++;
+                        }
+                    }
+                    if(count >= 5){
+                        main.sqlite.setUserLockedStatus(username, 1);
+                    }
+                }
+            }
             loginPnl.getIncorrectCredentialsComponent().setVisible(true);
             loginPnl.loginClearFields();   
         }
