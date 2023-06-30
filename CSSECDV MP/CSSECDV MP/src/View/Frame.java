@@ -232,6 +232,10 @@ public class Frame extends javax.swing.JFrame {
         this.main = controller;
         loginPnl.frame = this;
         registerPnl.frame = this;
+
+        //Reset Password Panels
+        requestPnl.frame = this;
+        resetPnl.frame = this;
         
         adminHomePnl.init(main.sqlite);
         clientHomePnl.init(main.sqlite);

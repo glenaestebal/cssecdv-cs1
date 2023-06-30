@@ -25,6 +25,9 @@ public class RequestReset extends javax.swing.JPanel {
         inputFld = new JTextField();
         backBtn = new javax.swing.JButton();
 
+        //Frame
+        frame = new Frame();
+
         //Password Change Btn
         sendBtn = new JButton();
 
