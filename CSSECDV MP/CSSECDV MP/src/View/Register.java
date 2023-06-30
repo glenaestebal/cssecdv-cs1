@@ -113,50 +113,55 @@ public class Register extends javax.swing.JPanel {
         String username = usernameFld.getText();
         String password = passwordFld.getText();
         String confirmPassword = confpassFld.getText();
-
-        // Perform password complexity check
-        int check = frame.checkPassword(password);
         
-        switch(check){
-            case 1: 
-                JOptionPane.showMessageDialog(null, "Password should have at least 8 characters");
-                password = null;
-                confirmPassword = null;
-                break;
-            case 2: 
-                JOptionPane.showMessageDialog(null, "Password should contain at least one uppercase letter"); 
-
-                password = null;
-                confirmPassword = null;
-                break;
-            case 3: 
-               JOptionPane.showMessageDialog(null, "Password should contain at least one lowercase letter"); 
-
-                password = null;
-                confirmPassword = null;
-                break;
-            case 4: 
-                JOptionPane.showMessageDialog(null, "Password should contain at least one numerical digit"); 
-
-                password = null;
-                confirmPassword = null;
-                break;
-            case 5: 
-                JOptionPane.showMessageDialog(null, "Password should contain at least one special character"); 
-
-                password = null;
-                confirmPassword = null;
-                break;
-            case 6:
-                if (!password.equals(confirmPassword)) {
-                    passwordMismatch.setText("Passwords do not match.");
-                    passwordMismatch.setVisible(true);
-                    break;
-                }
-                frame.registerAction(usernameFld.getText(), passwordFld.getText(), confpassFld.getText());
-                this.registerClearFields();
+        if (frame.findUser(username)){
+            JOptionPane.showMessageDialog(null, "Username already exists");
+            this.registerClearFields();
         }
-        
+        else{
+            // Perform password complexity check
+            int check = frame.checkPassword(password);
+
+            switch(check){
+                case 1: 
+                    JOptionPane.showMessageDialog(null, "Password should have at least 8 characters");
+                    password = null;
+                    confirmPassword = null;
+                    break;
+                case 2: 
+                    JOptionPane.showMessageDialog(null, "Password should contain at least one uppercase letter"); 
+
+                    password = null;
+                    confirmPassword = null;
+                    break;
+                case 3: 
+                   JOptionPane.showMessageDialog(null, "Password should contain at least one lowercase letter"); 
+
+                    password = null;
+                    confirmPassword = null;
+                    break;
+                case 4: 
+                    JOptionPane.showMessageDialog(null, "Password should contain at least one numerical digit"); 
+
+                    password = null;
+                    confirmPassword = null;
+                    break;
+                case 5: 
+                    JOptionPane.showMessageDialog(null, "Password should contain at least one special character"); 
+
+                    password = null;
+                    confirmPassword = null;
+                    break;
+                case 6:
+                    if (!password.equals(confirmPassword)) {
+                        passwordMismatch.setText("Passwords do not match.");
+                        passwordMismatch.setVisible(true);
+                        break;
+                    }
+                    frame.registerAction(usernameFld.getText(), passwordFld.getText(), confpassFld.getText());
+                    this.registerClearFields();
+            }
+        }
     }//GEN-LAST:event_registerBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
