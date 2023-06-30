@@ -21,7 +21,7 @@ public class RequestReset extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new JLabel();
-        usernameFld = new JTextField();
+        inputFld = new JTextField();
         backBtn = new javax.swing.JButton();
 
         //Password Change Btn
@@ -32,10 +32,10 @@ public class RequestReset extends javax.swing.JPanel {
         jLabel1.setText("SECURITY Svcs");
         jLabel1.setToolTipText("");
 
-        usernameFld.setBackground(new Color(240, 240, 240));
-        usernameFld.setFont(new Font("Tahoma", 0, 18)); // NOI18N
-        usernameFld.setHorizontalAlignment(JTextField.CENTER);
-        usernameFld.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "USERNAME", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 12))); // NOI18N
+        inputFld.setBackground(new Color(240, 240, 240));
+        inputFld.setFont(new Font("Tahoma", 0, 18)); // NOI18N
+        inputFld.setHorizontalAlignment(JTextField.CENTER);
+        inputFld.setBorder(BorderFactory.createTitledBorder(new LineBorder(new Color(0, 0, 0), 2, true), "ACCOUNT EMAIL", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("Tahoma", 0, 12))); // NOI18N
 
         sendBtn.setFont(new Font("Tahoma", 1, 18)); // NOI18N
         sendBtn.setText("SEND CODE");
@@ -63,7 +63,7 @@ public class RequestReset extends javax.swing.JPanel {
                                 .addContainerGap(200, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                                         .addComponent(sendBtn, GroupLayout.PREFERRED_SIZE, 178, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(usernameFld)
+                                        .addComponent(inputFld)
                                         .addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addContainerGap(200, Short.MAX_VALUE))
         );
@@ -75,7 +75,7 @@ public class RequestReset extends javax.swing.JPanel {
                                 .addGap(24, 24, 24)
                                 .addComponent(jLabel1, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
                                 .addGap(50, 50, 50)
-                                .addComponent(usernameFld, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(inputFld, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
                                 .addGap(50, 50, 50)
                                 .addComponent(sendBtn, GroupLayout.PREFERRED_SIZE, 52, GroupLayout.PREFERRED_SIZE))
         );
@@ -83,28 +83,37 @@ public class RequestReset extends javax.swing.JPanel {
 
     //Reset Button's Functions
     private void resetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
-        String username = usernameFld.getText();
-        usernameFld.setText("");
-        boolean exists = frame.findUser(username);      //Searches for user
-        if(!exists){
+        String email = inputFld.getText();
+        inputFld.setText("");
+
+        if(!(email.contains("@") && email.contains(".com"))){
             jLabel1.setText("Enter a valid username");  //Invalid Username
         }
+
         else{
-            frame.setUsername(username);                //Sets Username
-            frame.resetNav();
+            int pos = email.indexOf("@");
+            String username = email.substring(0, pos);
+            boolean exists = frame.findUser(username);      //Searches for user
+            if(!exists){
+                jLabel1.setText("Enter a valid username");  //Invalid Username
+            }
+            else{
+                frame.setUsername(username);                //Sets Username
+                frame.resetNav();
+            }
         }
 
     }//GEN-LAST:event_resetBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
-        usernameFld.setText("");
+        inputFld.setText("");
         frame.loginNav();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField usernameFld;
+    private javax.swing.JTextField inputFld;
     // End of variables declaration//GEN-END:variables
 
     //Change Password Button
