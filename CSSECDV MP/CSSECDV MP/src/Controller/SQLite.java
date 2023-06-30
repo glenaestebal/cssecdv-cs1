@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -183,24 +184,6 @@ public class SQLite {
         }
     }
     
-    public void addUser(String username, String password) {
-        String sql = "INSERT INTO users(username,password) VALUES('" + username + "','" + password + "')";
-        
-        try (Connection conn = DriverManager.getConnection(driverURL);
-            Statement stmt = conn.createStatement()){
-            stmt.execute(sql);
-            
-//      PREPARED STATEMENT EXAMPLE
-//      String sql = "INSERT INTO users(username,password) VALUES(?,?)";
-//      PreparedStatement pstmt = conn.prepareStatement(sql)) {
-//      pstmt.setString(1, username);
-//      pstmt.setString(2, password);
-//      pstmt.executeUpdate();
-        } catch (Exception ex) {
-            System.out.print(ex);
-        }
-    }
-    
     
     public ArrayList<History> getHistory(){
         String sql = "SELECT id, username, name, stock, timestamp FROM history";
@@ -307,8 +290,9 @@ public class SQLite {
         }
         return hexString.toString();
     }
-
+    
     public void addUser(String username, String password, int role) {
+        // Check password complexity
         
         String hashedPassword = hashPassword(password);
         String sql = "INSERT INTO users (username, password, role) VALUES ('" + username + "', '" + hashedPassword + "', " + role + ")";
@@ -320,6 +304,30 @@ public class SQLite {
         } catch (Exception ex) {
             System.out.print(ex);
         }
+    }
+
+    //Function to find User
+    public boolean findUser(String u){
+        boolean userExists = false;
+        String stmt = "SELECT * FROM users ORDER BY user_Name desc";
+
+        try (Connection conn = DriverManager.getConnection(driverURL)) {
+            PreparedStatement pst = conn.prepareStatement(stmt);
+            ResultSet rs = pst.executeQuery();
+
+            String usernamePool;
+            if (rs.next()) {
+                usernamePool = rs.getString("user_Name");//column name
+                if (usernamePool.equals(u)) {
+                    userExists = true;
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+
+        return userExists;
     }
     
     public void removeUser(String username) {
