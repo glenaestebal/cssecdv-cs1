@@ -356,4 +356,16 @@ public class SQLite {
         }
         return product;
     }
+    
+    public void setUserLockedStatus(String username, int lockedStatus) {
+        String sql = "UPDATE users SET locked = " + lockedStatus + " WHERE username = '" + username + "'";
+
+        try (Connection conn = DriverManager.getConnection(driverURL);
+             Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
+            System.out.println("User " + username + " locked status set to " + lockedStatus);
+        } catch (Exception ex) {
+            System.out.print(ex);
+        }
+    }
 }
