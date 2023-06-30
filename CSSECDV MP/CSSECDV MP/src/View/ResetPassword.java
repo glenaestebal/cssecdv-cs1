@@ -125,41 +125,53 @@ public class ResetPassword extends javax.swing.JPanel {
                 confirm = null;
             }
 
-            //If password is too short
-            else if (password.length() < 10) {
-                jLabel1.setText("Enter a longer password");
-                resetcode = null;
-                password = null;
-                confirm = null;
-            }
+            else{
+                //If password is too short
+                int check = frame.checkPassword(password);
 
-            //If confirmation is empty
-            else if (confirm.isEmpty()) {
-                jLabel1.setText("Confirm password");
-                resetcode = null;
-                password = null;
-                confirm = null;
-            }
-
-            //If password is confirmation don't match
-            else if (!password.equals(confirm)) {
-                jLabel1.setText("Password confirmation incorrect");
-                resetcode = null;
-                password = null;
-                confirm = null;
-            }
-
-            //New password is sufficient and correct
-            else {
-                System.out.println(password.length());
-                resetcodeFld.setText("");
-                passwordFld.setText("");
-                confpassFld.setText("");
-                frame.resetPassword(frame.getUsername(), password);
-                resetcode = null;
-                password = null;
-                confirm = null;
-                frame.loginNav();
+                //If confirmation is empty
+                switch(check){
+                    case 1: 
+                        jLabel1.setText("Password should have at least 8 characters"); 
+                        resetcode = null;
+                        password = null;
+                        confirm = null;
+                        break;
+                    case 2: 
+                        jLabel1.setText("Password should contain at least one uppercase letter"); 
+                        resetcode = null;
+                        password = null;
+                        confirm = null;
+                        break;
+                    case 3: 
+                        jLabel1.setText("Password should contain at least one lowercase letter"); 
+                        resetcode = null;
+                        password = null;
+                        confirm = null;
+                        break;
+                    case 4: 
+                        jLabel1.setText("Password should contain at least one numerical digit"); 
+                        resetcode = null;
+                        password = null;
+                        confirm = null;
+                        break;
+                    case 5: 
+                        jLabel1.setText("Password should contain at least one special character"); 
+                        resetcode = null;
+                        password = null;
+                        confirm = null;
+                        break;
+                    case 6: 
+                        System.out.println(password.length());
+                        resetcodeFld.setText("");
+                        passwordFld.setText("");
+                        confpassFld.setText("");
+                        frame.resetPassword(frame.getUsername(), password);
+                        resetcode = null;
+                        password = null;
+                        confirm = null;
+                        frame.loginNav();
+                }
             }
         }
 

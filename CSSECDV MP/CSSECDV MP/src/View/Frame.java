@@ -406,6 +406,11 @@ public class Frame extends javax.swing.JFrame {
         frameView.show(Container, "resetPnl");
     }
 
+    //Check Password Strength
+    public int checkPassword(String p){
+        return main.sqlite.isPasswordComplex(p);
+    }
+
     //Reset Password Function
     public void resetPassword(String username, String newPassword){
         main.sqlite.modPassword(username, newPassword);
