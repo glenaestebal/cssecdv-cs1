@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.WindowConstants;
 import java.sql.Timestamp;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 public class Frame extends javax.swing.JFrame {
 
@@ -281,11 +282,11 @@ public class Frame extends javax.swing.JFrame {
         }
         
         if (users.contains(newUser)){
-            this.mainNav();
             
             for (User user : users) {
-                if (user.getLocked()==0){
-                    if (user.getUsername().equals(username)) {
+                if (user.getUsername().equals(username)){
+                    if (user.getLocked()==0){
+                        this.mainNav();
                         if (user.getRole() == 1){
                             clientHomePnl.showPnl("home");
                             contentView.show(Content, "clientHomePnl");
@@ -330,7 +331,7 @@ public class Frame extends javax.swing.JFrame {
                 }
                 else {
                     main.sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
-                    //loginPnl locked out message
+                    JOptionPane.showMessageDialog(null, "Account locked due to multiple unsuccessful login attempts!");
                 }
             }
         } else {
@@ -346,6 +347,7 @@ public class Frame extends javax.swing.JFrame {
                     }
                     if(count >= 5){
                         main.sqlite.setUserLockedStatus(username, 1);
+                        JOptionPane.showMessageDialog(null, "Account locked due to multiple unsuccessful login attempts!");
                     }
                 }
             }
