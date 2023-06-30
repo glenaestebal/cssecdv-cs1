@@ -1,6 +1,7 @@
 package View;
 
 import Controller.SQLite;
+import javax.swing.JOptionPane;
 
 //This class is where the user can reset their password
 //It is assumed they gained the code from their email
@@ -131,36 +132,36 @@ public class ResetPassword extends javax.swing.JPanel {
                 //If confirmation is empty
                 switch(check){
                     case 1: 
-                        jLabel1.setText("Password should have at least 8 characters"); 
+                        JOptionPane.showMessageDialog(null, "Password should have at least 8 characters");
                         resetcode = null;
                         password = null;
                         confirm = null;
                         break;
                     case 2: 
-                        jLabel1.setText("Password should contain at least one uppercase letter"); 
+                        JOptionPane.showMessageDialog(null, "Password should contain at least one uppercase letter"); 
                         resetcode = null;
                         password = null;
                         confirm = null;
                         break;
                     case 3: 
-                        jLabel1.setText("Password should contain at least one lowercase letter"); 
+                       JOptionPane.showMessageDialog(null, "Password should contain at least one lowercase letter"); 
                         resetcode = null;
                         password = null;
                         confirm = null;
                         break;
                     case 4: 
-                        jLabel1.setText("Password should contain at least one numerical digit"); 
+                        JOptionPane.showMessageDialog(null, "Password should contain at least one numerical digit"); 
                         resetcode = null;
                         password = null;
                         confirm = null;
                         break;
                     case 5: 
-                        jLabel1.setText("Password should contain at least one special character"); 
+                        JOptionPane.showMessageDialog(null, "Password should contain at least one special character"); 
                         resetcode = null;
                         password = null;
                         confirm = null;
                         break;
-                    case 6: 
+                    case 6:
                         System.out.println(password.length());
                         resetcodeFld.setText("");
                         passwordFld.setText("");
