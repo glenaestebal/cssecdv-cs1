@@ -1,6 +1,8 @@
 
 package View;
 
+import javax.swing.JOptionPane;
+
 public class Register extends javax.swing.JPanel {
 
     public Frame frame;
@@ -108,8 +110,53 @@ public class Register extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
-        frame.registerAction(usernameFld.getText(), passwordFld.getText(), confpassFld.getText());
-        this.registerClearFields();
+        String username = usernameFld.getText();
+        String password = passwordFld.getText();
+        String confirmPassword = confpassFld.getText();
+
+        // Perform password complexity check
+        int check = frame.checkPassword(password);
+        
+        switch(check){
+            case 1: 
+                JOptionPane.showMessageDialog(null, "Password should have at least 8 characters");
+                password = null;
+                confirmPassword = null;
+                break;
+            case 2: 
+                JOptionPane.showMessageDialog(null, "Password should contain at least one uppercase letter"); 
+
+                password = null;
+                confirmPassword = null;
+                break;
+            case 3: 
+               JOptionPane.showMessageDialog(null, "Password should contain at least one lowercase letter"); 
+
+                password = null;
+                confirmPassword = null;
+                break;
+            case 4: 
+                JOptionPane.showMessageDialog(null, "Password should contain at least one numerical digit"); 
+
+                password = null;
+                confirmPassword = null;
+                break;
+            case 5: 
+                JOptionPane.showMessageDialog(null, "Password should contain at least one special character"); 
+
+                password = null;
+                confirmPassword = null;
+                break;
+            case 6:
+                if (!password.equals(confirmPassword)) {
+                    passwordMismatch.setText("Passwords do not match.");
+                    passwordMismatch.setVisible(true);
+                    break;
+                }
+                frame.registerAction(usernameFld.getText(), passwordFld.getText(), confpassFld.getText());
+                this.registerClearFields();
+        }
+        
     }//GEN-LAST:event_registerBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
