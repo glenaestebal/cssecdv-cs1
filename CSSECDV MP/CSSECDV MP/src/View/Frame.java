@@ -1,6 +1,7 @@
 package View;
 
 import Controller.Main;
+import Controller.SessionManager;
 import Model.Logs;
 import Model.User;
 import java.awt.BorderLayout;
@@ -211,7 +212,7 @@ public class Frame extends javax.swing.JFrame {
         frameView.show(Container, "loginPnl");
         loginPnl.loginClearFields();
         loginPnl.getIncorrectCredentialsComponent().setVisible(false);
-        
+        SessionManager.getInstance().clear();
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     public Main main;
@@ -297,6 +298,7 @@ public class Frame extends javax.swing.JFrame {
         
         if (isPasswordCorrect){
                 if (user.getLocked()==0){
+                    SessionManager.getInstance().put("user", user);
                     this.mainNav();
                     if (user.getRole() == 1){
                         clientHomePnl.showPnl("home");
@@ -341,6 +343,7 @@ public class Frame extends javax.swing.JFrame {
                 } else {
                     main.sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
                     JOptionPane.showMessageDialog(null, "Account locked due to multiple unsuccessful login attempts!");
+                    
                 }
             
         } else {
