@@ -279,6 +279,8 @@ public class Frame extends javax.swing.JFrame {
     
     public void loginAction(String username, String password)   {
         User user = main.sqlite.getUser(username);
+                
+                
         if (username.isBlank() || password.isBlank()){
             loginPnl.getIncorrectCredentialsComponent().setVisible(true);
             return;
@@ -290,8 +292,9 @@ public class Frame extends javax.swing.JFrame {
             return;
         }
         
+        
         boolean isPasswordCorrect = BCrypt.checkpw(password, user.getPassword());
-
+        
         if (isPasswordCorrect){
                 if (user.getLocked()==0){
                     this.mainNav();

@@ -179,6 +179,7 @@ public class ResetPassword extends javax.swing.JPanel {
 
                 
             }
+            
         }
 
     }//GEN-LAST:event_registerBtnActionPerformed

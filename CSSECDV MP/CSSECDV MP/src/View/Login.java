@@ -110,6 +110,7 @@ public class Login extends javax.swing.JPanel {
         String username = usernameFld.getText();
         String password = passwordFld.getText();
         frame.loginAction(username, password);
+        getIncorrectCredentialsComponent().setVisible(true);
     }//GEN-LAST:event_loginBtnActionPerformed
 
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
@@ -120,6 +121,7 @@ public class Login extends javax.swing.JPanel {
     private void requestBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBtnActionPerformed
         usernameFld.setText("");
         passwordFld.setText("");
+        getIncorrectCredentialsComponent().setVisible(false);
         frame.requestNav();
     }//GEN-LAST:event_resetBtnActionPerformed
 
