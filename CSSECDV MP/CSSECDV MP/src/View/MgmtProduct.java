@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import Model.User;
+
 /**
  *
  * @author beepxD
@@ -33,7 +35,11 @@ public class MgmtProduct extends javax.swing.JPanel {
 //        addBtn.setVisible(false);
 //        editBtn.setVisible(false);
 //        deleteBtn.setVisible(false);
+        
+       
     }
+    
+    
 
     public void init(){
         //      CLEAR TABLE
@@ -246,7 +252,8 @@ public class MgmtProduct extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
-
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;
     private javax.swing.JButton deleteBtn;
