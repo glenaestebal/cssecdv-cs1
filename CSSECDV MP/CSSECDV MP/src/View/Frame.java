@@ -291,6 +291,7 @@ public class Frame extends javax.swing.JFrame {
         }
         
         boolean isPasswordCorrect = BCrypt.checkpw(password, user.getPassword());
+
         if (isPasswordCorrect){
                 if (user.getLocked()==0){
                     this.mainNav();

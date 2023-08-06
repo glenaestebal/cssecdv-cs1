@@ -291,16 +291,16 @@ public class SQLite {
     }
     
         // Function to hash the password using SHA-256
-    private String hashPassword(String password) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-            return bytesToHex(encodedHash);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    private String hashPassword(String password) {
+//        try {
+//            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+//            byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+//            return bytesToHex(encodedHash);
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     // Helper function to convert bytes to hexadecimal
     private String bytesToHex(byte[] hash) {
@@ -357,8 +357,9 @@ public class SQLite {
     //Modifies Password
     public synchronized void modPassword(String u, String p) {
         String sql = "UPDATE users SET password=? WHERE username=?;";
-        String hashedPassword = hashPassword(p);
-
+//        String hashedPassword = hashPassword(p);
+       String hashedPassword = BCrypt.hashpw(p, BCrypt.gensalt(12));
+        
         try (Connection conn = DriverManager.getConnection(driverURL);
              PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setString(1,hashedPassword);
