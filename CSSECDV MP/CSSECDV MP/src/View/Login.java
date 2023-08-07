@@ -21,7 +21,6 @@ public class Login extends javax.swing.JPanel {
         registerBtn = new javax.swing.JButton();
         loginBtn = new javax.swing.JButton();
         incorrectCredentials = new javax.swing.JLabel();
-        loginAttemptUnsuccessful = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -58,10 +57,6 @@ public class Login extends javax.swing.JPanel {
         incorrectCredentials.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         incorrectCredentials.setText("Username or password is incorrect.");
 
-        loginAttemptUnsuccessful.setForeground(new java.awt.Color(255, 51, 51));
-        loginAttemptUnsuccessful.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        loginAttemptUnsuccessful.setText("Login attempt unsuccessful.");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -76,8 +71,7 @@ public class Login extends javax.swing.JPanel {
                         .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(usernameFld)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(passwordFld, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(loginAttemptUnsuccessful, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(passwordFld, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(200, 200, 200))
         );
         layout.setVerticalGroup(
@@ -87,9 +81,7 @@ public class Login extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(incorrectCredentials)
-                .addGap(18, 18, 18)
-                .addComponent(loginAttemptUnsuccessful)
-                .addGap(16, 16, 16)
+                .addGap(50, 50, 50)
                 .addComponent(usernameFld, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(passwordFld, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -138,7 +130,6 @@ public class Login extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel incorrectCredentials;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel loginAttemptUnsuccessful;
     private javax.swing.JButton loginBtn;
     private javax.swing.JTextField passwordFld;
     private javax.swing.JButton registerBtn;
