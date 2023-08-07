@@ -224,6 +224,13 @@ public class MgmtProduct extends javax.swing.JPanel {
             System.out.println(nameFld.getText());
             System.out.println(stockFld.getText());
             System.out.println(priceFld.getText());
+
+            String addProductName = nameFld.getText();
+            int addProductStock = Integer.parseInt(stockFld.getText());
+            double addProductPrice = Float.parseFloat(priceFld.getText());
+            
+            sqlite.addProduct(addProductName, addProductStock, addProductPrice);
+                
         }
     }//GEN-LAST:event_addBtnActionPerformed
 
@@ -247,6 +254,13 @@ public class MgmtProduct extends javax.swing.JPanel {
                 System.out.println(nameFld.getText());
                 System.out.println(stockFld.getText());
                 System.out.println(priceFld.getText());
+                
+                // []
+//                String delProductName = nameFld.getText();
+//                int delProductStock = Integer.parseInt(stockFld.getText());
+//                double delProductPrice = Float.parseFloat(priceFld.getText());
+                
+
             }
         }
     }//GEN-LAST:event_editBtnActionPerformed
@@ -257,6 +271,8 @@ public class MgmtProduct extends javax.swing.JPanel {
             
             if (result == JOptionPane.YES_OPTION) {
                 System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                // [] delete
+
             }
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
