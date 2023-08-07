@@ -28,6 +28,7 @@
                   <Component id="usernameFld" max="32767" attributes="0"/>
                   <Component id="jLabel1" max="32767" attributes="0"/>
                   <Component id="passwordFld" alignment="0" max="32767" attributes="0"/>
+                  <Component id="loginAttemptUnsuccessful" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="200" max="-2" attributes="0"/>
           </Group>
@@ -36,10 +37,12 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace pref="88" max="32767" attributes="0"/>
+              <EmptySpace pref="71" max="32767" attributes="0"/>
               <Component id="jLabel1" min="-2" pref="46" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="incorrectCredentials" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="loginAttemptUnsuccessful" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               <Component id="usernameFld" min="-2" pref="59" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -49,7 +52,7 @@
                   <Component id="registerBtn" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
                   <Component id="loginBtn" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="126" max="32767" attributes="0"/>
+              <EmptySpace pref="109" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -139,6 +142,15 @@
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Username or password is incorrect."/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="loginAttemptUnsuccessful">
+      <Properties>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="33" green="33" red="ff" type="rgb"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="Login attempt unsuccessful."/>
       </Properties>
     </Component>
   </SubComponents>

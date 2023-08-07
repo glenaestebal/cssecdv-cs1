@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import Controller.SessionManager;
+
 /**
  *
  * @author beepxD
@@ -200,6 +202,7 @@ public class MgmtHistory extends javax.swing.JPanel {
         init();
     }//GEN-LAST:event_reloadBtnActionPerformed
 
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

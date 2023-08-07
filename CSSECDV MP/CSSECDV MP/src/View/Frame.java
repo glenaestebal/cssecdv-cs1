@@ -344,6 +344,7 @@ public class Frame extends javax.swing.JFrame {
                     main.sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
                     JOptionPane.showMessageDialog(null, "Account locked due to multiple unsuccessful login attempts!");
                     
+                    
                 }
             
         } else {
@@ -351,6 +352,8 @@ public class Frame extends javax.swing.JFrame {
                 ArrayList<Logs> unsuccessfulAttempts = main.sqlite.getUnsuccessfulAttempts(username);
                 
                 loginPnl.getIncorrectCredentialsComponent().setVisible(true);
+//                loginPnl.getLoginAttemptUnsuccessfulComponent().setVisible(true);
+                // insert "login attempt unsuccessful" message instead
                 loginPnl.loginClearFields(); 
                 if(unsuccessfulAttempts.size() >= 5){
                     user.setLocked(1);

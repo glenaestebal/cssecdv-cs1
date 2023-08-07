@@ -290,9 +290,9 @@ public class MgmtProduct extends javax.swing.JPanel {
                 purchaseBtn.setVisible(false);
                 break;
                 
-            case 5: // admin
-                
-                break;
+//            case 5: // admin
+//                
+//                break;
         }
     }
     
