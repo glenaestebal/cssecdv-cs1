@@ -111,7 +111,7 @@ public class Login extends javax.swing.JPanel {
         getIncorrectCredentialsComponent().setVisible(false);
         frame.requestNav();
     }//GEN-LAST:event_resetBtnActionPerformed
-
+    
     javax.swing.JLabel getIncorrectCredentialsComponent()   {
         return this.incorrectCredentials;
     }
