@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import Model.User;
+import Controller.SessionManager;
 
 /**
  *
@@ -23,6 +24,8 @@ public class MgmtProduct extends javax.swing.JPanel {
 
     public SQLite sqlite;
     public DefaultTableModel tableModel;
+    
+    public User user;
     
     public MgmtProduct(SQLite sqlite) {
         initComponents();
@@ -42,6 +45,12 @@ public class MgmtProduct extends javax.swing.JPanel {
     
 
     public void init(){
+        
+        this.user = (User) SessionManager.getInstance().get("user");
+        if(user != null){
+            disableButtons();
+        }
+        
         //      CLEAR TABLE
         for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
             tableModel.removeRow(0);
@@ -252,6 +261,34 @@ public class MgmtProduct extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
+    private void disableButtons()   {
+        int userRole = user.getRole();
+        switch (userRole)    {
+            case 1:
+                addBtn.setVisible(false);
+                editBtn.setVisible(false);
+                deleteBtn.setVisible(false);
+                break;
+         
+            case 2: // client
+                addBtn.setVisible(false);
+                editBtn.setVisible(false);
+                deleteBtn.setVisible(false);
+                break;
+            
+            case 3: // staff
+                purchaseBtn.setVisible(false);
+                break;
+                
+            case 4: //manager
+                purchaseBtn.setVisible(false);
+                break;
+                
+//            case 5: // admin
+//                
+//                break;
+        }
+    }
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

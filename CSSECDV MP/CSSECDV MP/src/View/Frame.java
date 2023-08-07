@@ -13,6 +13,8 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import org.mindrot.jbcrypt.BCrypt;
 
+import Controller.SessionManager;
+
 
 public class Frame extends javax.swing.JFrame {
 
@@ -297,6 +299,7 @@ public class Frame extends javax.swing.JFrame {
         
         if (isPasswordCorrect){
                 if (user.getLocked()==0){
+                    SessionManager.getInstance().put("user", user);
                     this.mainNav();
                     if (user.getRole() == 1){
                         clientHomePnl.showPnl("home");
