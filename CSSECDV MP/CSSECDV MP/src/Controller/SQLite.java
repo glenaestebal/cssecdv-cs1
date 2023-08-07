@@ -186,7 +186,31 @@ public class SQLite {
         }
     }
     
+//    public void editProduct(String newName, int newStock, double newPrice) {
+//        String sql = "UPDATE product SET name = '" + newName + "', stock = " + newStock + ", price = " + newPrice + " WHERE id = " + id;
+//
+//        try (Connection conn = DriverManager.getConnection(driverURL);
+//             Statement stmt = conn.createStatement()) {
+//            stmt.executeUpdate(sql);
+//        } catch (Exception ex) {
+//            System.out.print(ex);
+//        }
+//    }
     
+    public void deleteProduct(Object productObj) {
+        String sql = "DELETE FROM product WHERE name = '" + productObj + "'";
+
+        try (Connection conn = DriverManager.getConnection(driverURL);
+             Statement stmt = conn.createStatement()) {
+            stmt.execute(sql);
+        } catch (Exception ex) {
+            System.out.print(ex);
+        }
+
+    }
+
+    
+
     public ArrayList<History> getHistory(){
         String sql = "SELECT id, username, name, stock, timestamp FROM history";
         ArrayList<History> histories = new ArrayList<History>();

@@ -254,11 +254,12 @@ public class MgmtProduct extends javax.swing.JPanel {
                 System.out.println(nameFld.getText());
                 System.out.println(stockFld.getText());
                 System.out.println(priceFld.getText());
-                
-                // []
-//                String delProductName = nameFld.getText();
-//                int delProductStock = Integer.parseInt(stockFld.getText());
-//                double delProductPrice = Float.parseFloat(priceFld.getText());
+               
+//                String newProductName = nameFld.getText();
+//                int newProductStock = Integer.parseInt(stockFld.getText());
+//                double newProductPrice = Float.parseFloat(priceFld.getText());
+//
+//                sqlite.editProduct(newProductName, newProductStock, newProductPrice);
                 
 
             }
@@ -271,8 +272,8 @@ public class MgmtProduct extends javax.swing.JPanel {
             
             if (result == JOptionPane.YES_OPTION) {
                 System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
-                // [] delete
-
+                sqlite.deleteProduct(tableModel.getValueAt(table.getSelectedRow(), 0));
+               
             }
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
