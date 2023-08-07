@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Model.User;
 import Controller.SessionManager;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -30,6 +31,8 @@ public class MgmtProduct extends javax.swing.JPanel {
     public MgmtProduct(SQLite sqlite) {
         initComponents();
         this.sqlite = sqlite;
+        TableColumnModel tcm = table.getColumnModel();
+        tcm.removeColumn( tcm.getColumn(0) );
         tableModel = (DefaultTableModel)table.getModel();
         table.getTableHeader().setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 14));
 
@@ -60,6 +63,7 @@ public class MgmtProduct extends javax.swing.JPanel {
         ArrayList<Product> products = sqlite.getProduct();
         for(int nCtr = 0; nCtr < products.size(); nCtr++){
             tableModel.addRow(new Object[]{
+                products.get(nCtr).getId(),
                 products.get(nCtr).getName(), 
                 products.get(nCtr).getStock(), 
                 products.get(nCtr).getPrice()});
@@ -93,17 +97,17 @@ public class MgmtProduct extends javax.swing.JPanel {
         table.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Name", "Stock", "Price"
+                "Id", "Name", "Stock", "Price"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                true, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -119,7 +123,6 @@ public class MgmtProduct extends javax.swing.JPanel {
             table.getColumnModel().getColumn(2).setMaxWidth(100);
         }
 
-        purchaseBtn.setBackground(new java.awt.Color(255, 255, 255));
         purchaseBtn.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         purchaseBtn.setText("PURCHASE");
         purchaseBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -128,7 +131,6 @@ public class MgmtProduct extends javax.swing.JPanel {
             }
         });
 
-        addBtn.setBackground(new java.awt.Color(255, 255, 255));
         addBtn.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         addBtn.setText("ADD");
         addBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -137,7 +139,6 @@ public class MgmtProduct extends javax.swing.JPanel {
             }
         });
 
-        editBtn.setBackground(new java.awt.Color(255, 255, 255));
         editBtn.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         editBtn.setText("EDIT");
         editBtn.setToolTipText("");
@@ -147,7 +148,6 @@ public class MgmtProduct extends javax.swing.JPanel {
             }
         });
 
-        deleteBtn.setBackground(new java.awt.Color(255, 255, 255));
         deleteBtn.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         deleteBtn.setText("DELETE");
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -230,15 +230,16 @@ public class MgmtProduct extends javax.swing.JPanel {
             double addProductPrice = Float.parseFloat(priceFld.getText());
             
             sqlite.addProduct(addProductName, addProductStock, addProductPrice);
+            this.init();
                 
         }
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
         if(table.getSelectedRow() >= 0){
-            JTextField nameFld = new JTextField(tableModel.getValueAt(table.getSelectedRow(), 0) + "");
-            JTextField stockFld = new JTextField(tableModel.getValueAt(table.getSelectedRow(), 1) + "");
-            JTextField priceFld = new JTextField(tableModel.getValueAt(table.getSelectedRow(), 2) + "");
+            JTextField nameFld = new JTextField(tableModel.getValueAt(table.getSelectedRow(), 1) + "");
+            JTextField stockFld = new JTextField(tableModel.getValueAt(table.getSelectedRow(), 2) + "");
+            JTextField priceFld = new JTextField(tableModel.getValueAt(table.getSelectedRow(), 3) + "");
 
             designer(nameFld, "PRODUCT NAME");
             designer(stockFld, "PRODUCT STOCK");
@@ -251,30 +252,32 @@ public class MgmtProduct extends javax.swing.JPanel {
             int result = JOptionPane.showConfirmDialog(null, message, "EDIT PRODUCT", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 
             if (result == JOptionPane.OK_OPTION) {
+                int id = (Integer) tableModel.getValueAt(table.getSelectedRow(), 0);
                 System.out.println(nameFld.getText());
                 System.out.println(stockFld.getText());
                 System.out.println(priceFld.getText());
                
-//                String newProductName = nameFld.getText();
-//                int newProductStock = Integer.parseInt(stockFld.getText());
-//                double newProductPrice = Float.parseFloat(priceFld.getText());
-//
-//                sqlite.editProduct(newProductName, newProductStock, newProductPrice);
-                
-
+                String newProductName = nameFld.getText();
+                int newProductStock = Integer.parseInt(stockFld.getText());
+                double newProductPrice = Float.parseFloat(priceFld.getText());
+                sqlite.editProduct(newProductName, newProductStock, 
+                        newProductPrice,  id);
+                this.init();
             }
         }
     }//GEN-LAST:event_editBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         if(table.getSelectedRow() >= 0){
-            int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + tableModel.getValueAt(table.getSelectedRow(), 0) + "?", "DELETE PRODUCT", JOptionPane.YES_NO_OPTION);
+            int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + tableModel.getValueAt(table.getSelectedRow(), 1) + "?", "DELETE PRODUCT", JOptionPane.YES_NO_OPTION);
             
+            int id = (Integer) tableModel.getValueAt(table.getSelectedRow(), 0);
             if (result == JOptionPane.YES_OPTION) {
                 System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
-                sqlite.deleteProduct(tableModel.getValueAt(table.getSelectedRow(), 0));
-               
+                sqlite.deleteProduct(id);
+                this.init();
             }
+           
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
