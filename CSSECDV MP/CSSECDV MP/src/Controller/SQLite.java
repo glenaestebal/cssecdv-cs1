@@ -208,7 +208,20 @@ public class SQLite {
         }
 
     }
+    
+//    id, username, role, locked
 
+    public void lockUnlockUser (int newStatus, int id)   {
+        String sql = "UPDATE users SET locked = " + newStatus + " WHERE id = " + id;
+
+        try (Connection conn = DriverManager.getConnection(driverURL);
+            Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
+        } catch (Exception ex) {
+            System.out.print(ex);
+        }
+    }
+    
     
 
     public ArrayList<History> getHistory(){

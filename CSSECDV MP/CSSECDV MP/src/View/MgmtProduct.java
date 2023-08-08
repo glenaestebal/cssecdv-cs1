@@ -31,8 +31,10 @@ public class MgmtProduct extends javax.swing.JPanel {
     public MgmtProduct(SQLite sqlite) {
         initComponents();
         this.sqlite = sqlite;
+        
         TableColumnModel tcm = table.getColumnModel();
         tcm.removeColumn( tcm.getColumn(0) );
+        
         tableModel = (DefaultTableModel)table.getModel();
         table.getTableHeader().setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 14));
 
