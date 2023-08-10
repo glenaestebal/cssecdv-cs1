@@ -187,14 +187,20 @@ public class MgmtUser extends javax.swing.JPanel {
             String[] options = {"1-DISABLED","2-CLIENT","3-STAFF","4-MANAGER","5-ADMIN"};
             JComboBox optionList = new JComboBox(options);
             
-            optionList.setSelectedIndex((int)tableModel.getValueAt(table.getSelectedRow(), 2) - 1);
-            
+            String currentRole = (String) tableModel.getValueAt(table.getSelectedRow(), 2);
+            optionList.setSelectedItem(currentRole);
+
             String result = (String) JOptionPane.showInputDialog(null, "USER: " + tableModel.getValueAt(table.getSelectedRow(), 0), 
-                "EDIT USER ROLE", JOptionPane.QUESTION_MESSAGE, null, options, options[(int)tableModel.getValueAt(table.getSelectedRow(), 2) - 1]);
+                        "EDIT USER ROLE", JOptionPane.QUESTION_MESSAGE, null, options, currentRole);
             
             if(result != null){
                 System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
                 System.out.println(result.charAt(0));
+                
+                int id = (Integer) tableModel.getValueAt(table.getSelectedRow(), 0); 
+                int newRole = result.charAt(0) - '0';
+                sqlite.editRole(newRole, id);
+                this.init();
             }
         }
     }//GEN-LAST:event_editRoleBtnActionPerformed
