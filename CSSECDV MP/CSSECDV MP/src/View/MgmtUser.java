@@ -258,10 +258,19 @@ public class MgmtUser extends javax.swing.JPanel {
             };
 
             int result = JOptionPane.showConfirmDialog(null, message, "CHANGE PASSWORD", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
-            
-            if (result == JOptionPane.OK_OPTION) {
-                System.out.println(password.getText());
-                System.out.println(confpass.getText());
+            String username = tableModel.getValueAt(table.getSelectedRow(), 1).toString();
+            String pass = password.getText();
+            String pass2 = confpass.getText();
+            if (pass.equals(pass2)){
+                if (result == JOptionPane.OK_OPTION) {
+                    System.out.println(password.getText());
+                    System.out.println(confpass.getText());
+                    sqlite.modPassword(username,pass);
+                    this.init();
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Passwords do not match.");
             }
         }
     }//GEN-LAST:event_chgpassBtnActionPerformed

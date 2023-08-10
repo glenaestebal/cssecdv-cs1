@@ -406,7 +406,7 @@ public class SQLite {
     public synchronized void modPassword(String u, String p) {
         String sql = "UPDATE users SET password=? WHERE username=?;";
 //        String hashedPassword = hashPassword(p);
-       String hashedPassword = BCrypt.hashpw(p, BCrypt.gensalt(12));
+        String hashedPassword = BCrypt.hashpw(p, BCrypt.gensalt(12));
         
         try (Connection conn = DriverManager.getConnection(driverURL);
              PreparedStatement pst = conn.prepareStatement(sql)) {
@@ -416,8 +416,8 @@ public class SQLite {
             pst.close();
             conn.close();
         }
-    catch(SQLException e){
-        System.out.println(e.getMessage());
+        catch(SQLException e){
+            System.out.println(e.getMessage());
     }
 }
 
