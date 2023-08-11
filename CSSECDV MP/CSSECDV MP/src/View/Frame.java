@@ -282,7 +282,6 @@ public class Frame extends javax.swing.JFrame {
     public void loginAction(String username, String password)   {
         User user = main.sqlite.getUser(username);
                 
-                
         if (username.isBlank() || password.isBlank()){
             loginPnl.getIncorrectCredentialsComponent().setVisible(true);
             return;
@@ -299,7 +298,8 @@ public class Frame extends javax.swing.JFrame {
         if (isPasswordCorrect){
                 if (user.getLocked()==0){
                     SessionManager.getInstance().put("user", user);
-                    main.sqlite.addLogs("NOTICE", this.getUsername(), "Login attempt successful", main.sqlite.getCurrentTimeStamp());
+                    this.username = user.getUsername();
+                    main.sqlite.addLogs("NOTICE", this.username, "Login attempt successful", main.sqlite.getCurrentTimeStamp());
                     this.mainNav();
                     if (user.getRole() == 1){
                         clientHomePnl.showPnl("home");
