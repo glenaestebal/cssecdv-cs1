@@ -308,7 +308,7 @@ public class MgmtProduct extends javax.swing.JPanel {
     }
 
     private boolean isNumeric(String str) {
-        return str.matches("\\d+"); // Regular expression to match numbers only
+        return str.matches("\\d+(\\.\\d+)?");// Regular expression to match numbers only
     }
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
