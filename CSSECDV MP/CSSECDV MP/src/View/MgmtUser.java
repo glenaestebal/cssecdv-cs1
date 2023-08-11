@@ -248,7 +248,7 @@ public class MgmtUser extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(null, "User id " + tableModel.getValueAt(table.getSelectedRow(), 0) + " locked status set to " + newStatus);
                     }
                     sqlite.addLogs("EDIT", tableModel.getValueAt(table.getSelectedRow(), 1).toString(), "User locked", new Timestamp(new Date().getTime()).toString());
-                    sqlite.lockUnlockUser(newStatus, id);
+                    sqlite.setUserLockedStatus(tableModel.getValueAt(table.getSelectedRow(), 1).toString(), newStatus);
                     this.init();
                 } else {
                     int newStatus = 0;
@@ -256,7 +256,7 @@ public class MgmtUser extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(null, "User id " + tableModel.getValueAt(table.getSelectedRow(), 0) + " locked status set to " + newStatus);
                     }
                     sqlite.addLogs("EDIT", tableModel.getValueAt(table.getSelectedRow(), 1).toString(), "User unlocked", new Timestamp(new Date().getTime()).toString());
-                    sqlite.lockUnlockUser(newStatus, id);
+                    sqlite.setUserLockedStatus(tableModel.getValueAt(table.getSelectedRow(), 1).toString(), newStatus);
                     this.init();
                 }                
                 

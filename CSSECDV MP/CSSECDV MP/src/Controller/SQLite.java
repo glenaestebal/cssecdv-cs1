@@ -377,7 +377,7 @@ public class SQLite {
             pst.setInt(3,role);
             pst.executeUpdate();
             pst.close();
-            conn.close();
+            
             
         } catch (Exception ex) {
             System.out.print(ex);
@@ -431,7 +431,7 @@ public class SQLite {
             pst.setString(2,u);
             pst.executeUpdate();
             pst.close();
-            conn.close();
+            
         }
     catch(SQLException e){
         System.out.println(e.getMessage());
@@ -452,8 +452,9 @@ public class SQLite {
                 System.out.println("Username '" + u + "' found!");
                 userExists = true;
             }
+            rs.close();
             pst.close();
-            conn.close();
+
         } catch (Exception e) {
             System.out.print(e);
         }
@@ -476,8 +477,9 @@ public class SQLite {
                                        rs.getInt("role"),
                                        rs.getInt("locked"));
                 }
+                rs.close();
                 pst.close();
-                conn.close();
+                
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -485,19 +487,15 @@ public class SQLite {
     }
     
     public void removeUser(String username) {
-        String sql = "DELETE FROM users WHERE username=?";
+       String sql = "DELETE FROM users WHERE username = '" + username + "'";
 
-        try (Connection conn = DriverManager.getConnection(driverURL);
-            PreparedStatement pst = conn.prepareStatement(sql)) {
-            pst.setString(1, username);
-            ResultSet rs = pst.executeQuery();
-            System.out.println("User " + username + " has been deleted.");
-            pst.close();
-            conn.close();
-        } catch (Exception ex) {
-            System.out.print(ex);
-        }
-    }
+       try (Connection conn = DriverManager.getConnection(driverURL);
+           Statement stmt = conn.createStatement()) {
+           stmt.executeUpdate(sql);
+       } catch (Exception ex) {
+           System.out.print(ex);
+       }
+   }
     
     public Product getProduct(String name){
         String sql = "SELECT name, stock, price FROM product WHERE name=?;";
@@ -512,8 +510,9 @@ public class SQLite {
                                        rs.getInt("stock"),
                                        rs.getFloat("price"));
                 }
+                rs.close();
                 pst.close();
-                conn.close();
+                
         } catch (Exception ex) {
             System.out.print(ex);
         }
@@ -524,13 +523,11 @@ public class SQLite {
         String sql = "UPDATE users SET locked = ? WHERE username = ?";
 
         try (Connection conn = DriverManager.getConnection(driverURL);
-            PreparedStatement pst = conn.prepareStatement(sql)) {
-            pst.setString(1, username);
-            pst.setInt(2, lockedStatus);
-            ResultSet rs = pst.executeQuery();
-            System.out.println("User " + username + " locked status set to " + lockedStatus);
-            pst.close();
-            conn.close();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, lockedStatus);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+            pstmt.close();
         } catch (Exception ex) {
             System.out.print(ex);
         }
