@@ -189,7 +189,6 @@ public class ResetPassword extends javax.swing.JPanel {
         resetcodeFld.setText("");
         passwordFld.setText("");
         confpassFld.setText("");
-        frame.setUsername("");
         frame.loginNav();
     }//GEN-LAST:event_backBtnActionPerformed
 

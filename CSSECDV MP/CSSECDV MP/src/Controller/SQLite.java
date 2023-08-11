@@ -16,7 +16,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SQLite {
     
@@ -190,7 +192,7 @@ public class SQLite {
         String sql = "UPDATE product SET name = '" + newName + "', stock = " + newStock + ", price = " + newPrice + " WHERE id = " + id;
 
         try (Connection conn = DriverManager.getConnection(driverURL);
-             Statement stmt = conn.createStatement()) {
+            Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
         } catch (Exception ex) {
             System.out.print(ex);
@@ -221,8 +223,6 @@ public class SQLite {
             System.out.print(ex);
         }
     }
-    
-    
 
     public ArrayList<History> getHistory(){
         String sql = "SELECT id, username, name, stock, timestamp FROM history";
@@ -238,6 +238,29 @@ public class SQLite {
                                    rs.getString("name"),
                                    rs.getInt("stock"),
                                    rs.getString("timestamp")));
+            }
+        } catch (Exception ex) {
+            System.out.print(ex);
+        }
+        return histories;
+    }
+    
+    public ArrayList<History> getUserHistory(String u) {
+        String sql = "SELECT id, name, stock, timestamp FROM history WHERE username = ?";
+        ArrayList<History> histories = new ArrayList<>();
+
+        try (Connection conn = DriverManager.getConnection(driverURL);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, u);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    histories.add(new History(rs.getInt("id"),
+                            u,
+                            rs.getString("name"),
+                            rs.getInt("stock"),
+                            rs.getString("timestamp")));
+                }
             }
         } catch (Exception ex) {
             System.out.print(ex);
@@ -326,18 +349,6 @@ public class SQLite {
         } catch (Exception ex) {}
         return users;
     }
-    
-        // Function to hash the password using SHA-256
-//    private String hashPassword(String password) {
-//        try {
-//            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-//            byte[] encodedHash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-//            return bytesToHex(encodedHash);
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
 
     // Helper function to convert bytes to hexadecimal
     private String bytesToHex(byte[] hash) {
@@ -355,11 +366,16 @@ public class SQLite {
     public void addUser(String username, String password, int role) {
         // Check password complexity
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(12));
-        String sql = "INSERT INTO users (username, password, role) VALUES ('" + username + "', '" + hashedPassword + "', " + role + ")";
+        String sql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
         
         try (Connection conn = DriverManager.getConnection(driverURL);
-            Statement stmt = conn.createStatement()){
-            stmt.execute(sql);
+            PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1,username);
+            pst.setString(2,hashedPassword);
+            pst.setInt(3,role);
+            pst.executeUpdate();
+            pst.close();
+            conn.close();
             
         } catch (Exception ex) {
             System.out.print(ex);
@@ -394,11 +410,10 @@ public class SQLite {
     //Modifies Password
     public synchronized void modPassword(String u, String p) {
         String sql = "UPDATE users SET password=? WHERE username=?;";
-//        String hashedPassword = hashPassword(p);
-       String hashedPassword = BCrypt.hashpw(p, BCrypt.gensalt(12));
+        String hashedPassword = BCrypt.hashpw(p, BCrypt.gensalt(12));
         
         try (Connection conn = DriverManager.getConnection(driverURL);
-             PreparedStatement pst = conn.prepareStatement(sql)) {
+            PreparedStatement pst = conn.prepareStatement(sql)) {
             pst.setString(1,hashedPassword);
             pst.setString(2,u);
             pst.executeUpdate();
@@ -407,8 +422,8 @@ public class SQLite {
         }
     catch(SQLException e){
         System.out.println(e.getMessage());
+        }
     }
-}
 
     //Function to find User
     public synchronized boolean findUser(String u){
@@ -416,7 +431,7 @@ public class SQLite {
         String stmt = "SELECT * FROM users WHERE username = ?";
 
         try (Connection conn = DriverManager.getConnection(driverURL);
-             PreparedStatement pst = conn.prepareStatement(stmt)) {
+            PreparedStatement pst = conn.prepareStatement(stmt)) {
             pst.setString(1, u);
             ResultSet rs = pst.executeQuery();
 
@@ -435,7 +450,7 @@ public class SQLite {
         String stmt = "SELECT * FROM users WHERE username = ?";
         User user = null;
         try (Connection conn = DriverManager.getConnection(driverURL);
-             PreparedStatement pst = conn.prepareStatement(stmt)) {
+            PreparedStatement pst = conn.prepareStatement(stmt)) {
             pst.setString(1, username);
             ResultSet rs = pst.executeQuery();
 
@@ -484,11 +499,18 @@ public class SQLite {
         String sql = "UPDATE users SET locked = " + lockedStatus + " WHERE username = '" + username + "'";
 
         try (Connection conn = DriverManager.getConnection(driverURL);
-             Statement stmt = conn.createStatement()) {
+            Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
             System.out.println("User " + username + " locked status set to " + lockedStatus);
         } catch (Exception ex) {
             System.out.print(ex);
         }
+    }
+    
+    public static String getCurrentTimeStamp() {
+        String pattern = "yyyy-MM-dd HH:mm:ss.SSS";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        String date = sdf.format(new Date());
+        return date;
     }
 }

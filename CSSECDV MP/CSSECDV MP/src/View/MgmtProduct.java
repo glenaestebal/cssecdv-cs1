@@ -189,20 +189,40 @@ public class MgmtProduct extends javax.swing.JPanel {
                     .addComponent(editBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+   
     private void purchaseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseBtnActionPerformed
         if(table.getSelectedRow() >= 0){
+            //Stock Field
             JTextField stockFld = new JTextField("0");
             designer(stockFld, "PRODUCT STOCK");
-
+            String product = tableModel.getValueAt(table.getSelectedRow(), 1).toString();
+            double price = Double.parseDouble(tableModel.getValueAt(table.getSelectedRow(), 3).toString());
+            int ID = Integer.parseInt(tableModel.getValueAt(table.getSelectedRow(), 0).toString());
+            
             Object[] message = {
-                "How many " + tableModel.getValueAt(table.getSelectedRow(), 0) + " do you want to purchase?", stockFld
+                "Quantity of " + product, stockFld
             };
 
             int result = JOptionPane.showConfirmDialog(null, message, "PURCHASE PRODUCT", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
-
+            
             if (result == JOptionPane.OK_OPTION) {
-                System.out.println(stockFld.getText());
+                if(!stockFld.getText().matches("[0-9]+")) JOptionPane.showMessageDialog(null, "Please enter a valid quantity.");
+                else{
+                    int qty = Integer.parseInt(stockFld.getText());
+                    int rmn = Integer.parseInt(tableModel.getValueAt(table.getSelectedRow(), 2).toString());
+                    if(qty > rmn) JOptionPane.showMessageDialog(null, "Apologies, but we are short on stock.");
+                    else{
+                        //Order changes Product details
+                        sqlite.editProduct(product, rmn-qty, price, ID);
+                        //Purchase is recorded in History
+                        sqlite.addHistory(this.user.getUsername(), product, qty, sqlite.getCurrentTimeStamp());
+                        //Purchase is recorded in Logs
+                        sqlite.addLogs("PURCHASE", this.user.getUsername(), "Purchased " + product, sqlite.getCurrentTimeStamp());
+                        //Reload Products
+                        tableModel.fireTableDataChanged();
+                        this.repaint();
+                    }
+                }
             }
         }
     }//GEN-LAST:event_purchaseBtnActionPerformed

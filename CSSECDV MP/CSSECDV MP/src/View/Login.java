@@ -21,9 +21,6 @@ public class Login extends javax.swing.JPanel {
         loginBtn = new javax.swing.JButton();
         incorrectCredentials = new javax.swing.JLabel();
 
-        //Password Change Btn
-        changeBtn = new javax.swing.JButton();
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("SECURITY Svcs");
@@ -33,11 +30,41 @@ public class Login extends javax.swing.JPanel {
         usernameFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         usernameFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         usernameFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "USERNAME", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        usernameFld.addKeyListener(new java.awt.event.KeyListener() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CheckInput(evt);
+            }
+
+        });
 
         passwordFld.setBackground(new java.awt.Color(240, 240, 240));
         passwordFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         passwordFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         passwordFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "PASSWORD", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        passwordFld.addKeyListener(new java.awt.event.KeyListener() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                ScanInput(evt);
+            }
+
+        });
 
         registerBtn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         registerBtn.setText("REGISTER");
@@ -52,14 +79,6 @@ public class Login extends javax.swing.JPanel {
         loginBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginBtnActionPerformed(evt);
-            }
-        });
-
-        changeBtn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        changeBtn.setText("FORGOT");
-        changeBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                requestBtnActionPerformed(evt);
             }
         });
 
@@ -78,9 +97,7 @@ public class Login extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(registerBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(changeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(usernameFld)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(passwordFld, javax.swing.GroupLayout.Alignment.LEADING))
@@ -100,8 +117,7 @@ public class Login extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(registerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(126, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -113,6 +129,63 @@ public class Login extends javax.swing.JPanel {
         getIncorrectCredentialsComponent().setVisible(true);
     }//GEN-LAST:event_loginBtnActionPerformed
 
+    //Username Character Counter
+    private void CheckInput(java.awt.event.KeyEvent evt) {
+        //Getting text from Username Field
+        String txt = usernameFld.getText().toLowerCase();
+        //Counting Characters and Checking for SQL Statements
+        boolean lock = false;
+        if(txt.length() > 21 || txt .contains("select ") || txt.contains( "insert " ) || txt.contains( "delete " ) || 
+                txt.contains( "update " ) || txt.contains( "create " ) || txt.contains( "drop " ) || 
+                txt.contains( "alter " ) || txt.contains( "truncate " ) || txt.contains( "merge " ) ||  
+                txt.contains( "grant " ) || txt.contains( "revoke " ) || txt.contains( "commit " ) || 
+                txt.contains( "union " ) || txt.contains( "post " ) || txt.contains( "=" ) || 
+                txt.contains( ";--" ) || txt.contains( "\" or" ) || txt.contains( "\' or" ) || 
+                txt.contains( "char%" ) || txt.contains( "&quot" ) || txt.contains( "&apos" ) || 
+                txt.contains( " \" or \"\"=\" " ))
+            lock = true;
+        if (lock){
+            //Disable Login Button
+            incorrectCredentials.setText("Username or password is incorrect.");
+            incorrectCredentials.setVisible(true);
+            loginBtn.setEnabled(false);
+        }
+        else{
+            //Enable Login Button
+            incorrectCredentials.setVisible(false);
+            loginBtn.setEnabled(true);
+        }
+    }   
+    
+    //Password Character Counter
+    private void ScanInput(java.awt.event.KeyEvent evt) {
+        //Getting text from Password Field
+        String txt = passwordFld.getText().toLowerCase();
+        //Counting Characters and Checking for SQL Statements
+        boolean lock = false;
+        if(txt.length() > 21 || txt .contains("select ") || txt.contains( "insert " ) || txt.contains( "delete " ) || 
+                txt.contains( "update " ) || txt.contains( "create " ) || txt.contains( "drop " ) || 
+                txt.contains( "alter " ) || txt.contains( "truncate " ) || txt.contains( "merge " ) ||  
+                txt.contains( "grant " ) || txt.contains( "revoke " ) || txt.contains( "commit " ) || 
+                txt.contains( "union " ) || txt.contains( "post " ) || txt.contains( "=" ) || 
+                txt.contains( ";--" ) || txt.contains( "\" or" ) || txt.contains( "\' or" ) || 
+                txt.contains( "char%" ) || txt.contains( "&quot" ) || txt.contains( "&apos" ) || 
+                txt.contains( " \" or \"\"=\" " ))
+            lock = true;
+        if (lock){
+            //Disable Login Button
+            incorrectCredentials.setText("Username or password is incorrect.");
+            incorrectCredentials.setVisible(true);
+            loginBtn.setEnabled(false);
+        }
+        else{
+            //Enable Login Button
+            incorrectCredentials.setVisible(false);
+            loginBtn.setEnabled(true);
+        }
+    }   
+    
+    
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
         frame.registerNav();
         incorrectCredentials.setVisible(false);

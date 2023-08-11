@@ -36,11 +36,41 @@ public class Register extends javax.swing.JPanel {
         passwordFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         passwordFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         passwordFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "PASSWORD", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        passwordFld.addKeyListener(new java.awt.event.KeyListener() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CheckPassword(evt);
+            }
+
+        });
 
         usernameFld.setBackground(new java.awt.Color(240, 240, 240));
         usernameFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         usernameFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         usernameFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "USERNAME", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        usernameFld.addKeyListener(new java.awt.event.KeyListener() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CheckUsername(evt);
+            }
+
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -51,6 +81,21 @@ public class Register extends javax.swing.JPanel {
         confpassFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         confpassFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         confpassFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "CONFIRM PASSWORD", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        confpassFld.addKeyListener(new java.awt.event.KeyListener() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CheckConfirm(evt);
+            }
+
+        });
 
         backBtn.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         backBtn.setText("<Back");
@@ -109,6 +154,89 @@ public class Register extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    //Username Character Counter
+    private void CheckUsername(java.awt.event.KeyEvent evt) {
+        //Getting text from Username Field
+        String txt = usernameFld.getText().toLowerCase();
+        //Counting Characters and Checking for SQL Statements
+        boolean lock = false;
+        if(txt.length() > 21 || txt .contains("select ") || txt.contains( "insert " ) || txt.contains( "delete " ) || 
+                txt.contains( "update " ) || txt.contains( "create " ) || txt.contains( "drop " ) || 
+                txt.contains( "alter " ) || txt.contains( "truncate " ) || txt.contains( "merge " ) ||  
+                txt.contains( "grant " ) || txt.contains( "revoke " ) || txt.contains( "commit " ) || 
+                txt.contains( "union " ) || txt.contains( "post " ) || txt.contains( "=" ) || 
+                txt.contains( ";--" ) || txt.contains( "\" or" ) || txt.contains( "\' or" ) || 
+                txt.contains( "char%" ) || txt.contains( "&quot" ) || txt.contains( "&apos" ) || 
+                txt.contains( " \" or \"\"=\" " ))
+            lock = true;
+        if (lock){
+            //Disable Login Button
+            passwordMismatch.setText("Invalid Input!");
+            passwordMismatch.setVisible(true);
+            registerBtn.setEnabled(false);
+        }
+        else{
+            //Enable Login Button
+            passwordMismatch.setVisible(false);
+            registerBtn.setEnabled(true);
+        }
+    }   
+    
+    //Username Character Counter
+    private void CheckPassword(java.awt.event.KeyEvent evt) {
+        //Getting text from Username Field
+        String txt = passwordFld.getText().toLowerCase();
+        //Counting Characters and Checking for SQL Statements
+        boolean lock = false;
+        if(txt.length() > 21 || txt .contains("select ") || txt.contains( "insert " ) || txt.contains( "delete " ) || 
+                txt.contains( "update " ) || txt.contains( "create " ) || txt.contains( "drop " ) || 
+                txt.contains( "alter " ) || txt.contains( "truncate " ) || txt.contains( "merge " ) ||  
+                txt.contains( "grant " ) || txt.contains( "revoke " ) || txt.contains( "commit " ) || 
+                txt.contains( "union " ) || txt.contains( "post " ) || txt.contains( "=" ) || 
+                txt.contains( ";--" ) || txt.contains( "\" or" ) || txt.contains( "\' or" ) || 
+                txt.contains( "char%" ) || txt.contains( "&quot" ) || txt.contains( "&apos" ) || 
+                txt.contains( " \" or \"\"=\" " ))
+            lock = true;
+        if (lock){
+            //Disable Login Button
+            passwordMismatch.setText("Invalid Input!");
+            passwordMismatch.setVisible(true);
+            registerBtn.setEnabled(false);
+        }
+        else{
+            //Enable Login Button
+            passwordMismatch.setVisible(false);
+            registerBtn.setEnabled(true);
+        }
+    }
+    //Username Character Counter
+    private void CheckConfirm(java.awt.event.KeyEvent evt) {
+        //Getting text from Username Field
+        String txt = confpassFld.getText().toLowerCase();
+        //Counting Characters and Checking for SQL Statements
+        boolean lock = false;
+        if(txt.length() > 21 || txt .contains("select ") || txt.contains( "insert " ) || txt.contains( "delete " ) || 
+                txt.contains( "update " ) || txt.contains( "create " ) || txt.contains( "drop " ) || 
+                txt.contains( "alter " ) || txt.contains( "truncate " ) || txt.contains( "merge " ) ||  
+                txt.contains( "grant " ) || txt.contains( "revoke " ) || txt.contains( "commit " ) || 
+                txt.contains( "union " ) || txt.contains( "post " ) || txt.contains( "=" ) || 
+                txt.contains( ";--" ) || txt.contains( "\" or" ) || txt.contains( "\' or" ) || 
+                txt.contains( "char%" ) || txt.contains( "&quot" ) || txt.contains( "&apos" ) || 
+                txt.contains( " \" or \"\"=\" " ))
+            lock = true;
+        if (lock){
+            //Disable Login Button
+            passwordMismatch.setText("Invalid Input!");
+            passwordMismatch.setVisible(true);
+            registerBtn.setEnabled(false);
+        }
+        else{
+            //Enable Login Button
+            passwordMismatch.setVisible(false);
+            registerBtn.setEnabled(true);
+        }
+    }
+    
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
         String username = usernameFld.getText();
         String password = passwordFld.getText();
@@ -118,6 +246,12 @@ public class Register extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Username already exists");
             this.registerClearFields();
         }
+        
+        if(username.length()<5){
+            JOptionPane.showMessageDialog(null, "Username must be 5 to 20 Characters long");
+            this.registerClearFields();
+        }
+            
         else{
             // Perform password complexity check
             int check = frame.checkPassword(password);

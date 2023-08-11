@@ -98,8 +98,7 @@ public class RequestReset extends javax.swing.JPanel {
             if(!exists){
                 jLabel1.setText("Enter a valid username");  //Invalid Username
             }
-            else{
-                frame.setUsername(username);                //Sets Username
+            else{            //Sets Username
                 frame.resetNav();
             }
         }

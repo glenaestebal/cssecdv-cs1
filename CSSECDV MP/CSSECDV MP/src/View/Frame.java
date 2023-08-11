@@ -294,12 +294,12 @@ public class Frame extends javax.swing.JFrame {
             return;
         }
         
-        
         boolean isPasswordCorrect = BCrypt.checkpw(password, user.getPassword());
         
         if (isPasswordCorrect){
                 if (user.getLocked()==0){
                     SessionManager.getInstance().put("user", user);
+                    main.sqlite.addLogs("NOTICE", this.getUsername(), "Login attempt successful", main.sqlite.getCurrentTimeStamp());
                     this.mainNav();
                     if (user.getRole() == 1){
                         clientHomePnl.showPnl("home");
@@ -358,9 +358,6 @@ public class Frame extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Account locked due to multiple unsuccessful login attempts!");
                 }
         }
-            
-            
-
     }
     
     public void registerNav(){
@@ -377,6 +374,7 @@ public class Frame extends javax.swing.JFrame {
         
         if (password.equals(confpass))  {
             main.sqlite.addUser(username, password, 2);
+            main.sqlite.addLogs("NOTICE", username, "User creation successful", main.sqlite.getCurrentTimeStamp());
             this.loginNav();
         } else    {
            registerPnl.getPasswordMismatchComponent().setVisible(true);
@@ -386,14 +384,9 @@ public class Frame extends javax.swing.JFrame {
         
     }
 
-     //Sets username as a variable
-       public void setUsername(String u){
-        this.username = u;
-    }
-
-    //Sets username as a variable
+    //Gets username as a variable
     public String getUsername(){
-        return this.username;
+        return ((User) SessionManager.getInstance().get("user")).getUsername();
     }
 
      //Password Reset Request Page Navigation
@@ -438,6 +431,4 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JButton staffBtn;
     // End of variables declaration//GEN-END:variables
 
-    //User's Username
-    private String username;
 }
