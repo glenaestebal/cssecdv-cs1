@@ -24,6 +24,10 @@ public class Main {
         // Initialize a driver object
         sqlite = new SQLite();
 
+        String currentWorkingDirectory = System.getProperty("user.dir");
+        System.out.println("Current working directory: " + currentWorkingDirectory);
+
+
 //        // Create a database
 //        sqlite.createNewDatabase();
 //        

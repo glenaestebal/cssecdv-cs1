@@ -23,7 +23,8 @@ import java.util.Date;
 public class SQLite {
     
     public int DEBUG_MODE = 0;
-    String driverURL = "jdbc:sqlite:" + "database.db";
+    
+    String driverURL = "jdbc:sqlite:" + "CSSECDV MP/CSSECDV MP/"+"database.db";
     
     public void createNewDatabase() {
         try (Connection conn = DriverManager.getConnection(driverURL)) {

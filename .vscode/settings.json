@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "CSSECDV MP\\CSSECDV MP\\dist\\lib\\jbcrypt-0.4.jar",
+        "CSSECDV MP\\CSSECDV MP\\dist\\lib\\sqlite-jdbc-3.23.1.jar"
+    ]
+}
