@@ -7,7 +7,9 @@ package View;
 
 import Controller.SQLite;
 import Model.User;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -190,16 +192,20 @@ public class MgmtUser extends javax.swing.JPanel {
             String currentRole = (String) tableModel.getValueAt(table.getSelectedRow(), 2);
             optionList.setSelectedItem(currentRole);
 
-            String result = (String) JOptionPane.showInputDialog(null, "USER: " + tableModel.getValueAt(table.getSelectedRow(), 0), 
+            String result = (String) JOptionPane.showInputDialog(null, "USER: " + tableModel.getValueAt(table.getSelectedRow(), 1), 
                         "EDIT USER ROLE", JOptionPane.QUESTION_MESSAGE, null, options, currentRole);
             
             if(result != null){
-                System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
-                System.out.println(result.charAt(0));
+                if(sqlite.DEBUG_MODE == 1){
+                    JOptionPane.showMessageDialog(null, "User id " + tableModel.getValueAt(table.getSelectedRow(), 0) + " role set to " + result.charAt(0));
+                    System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                    System.out.println(result.charAt(0));
+                }
                 
                 int id = (Integer) tableModel.getValueAt(table.getSelectedRow(), 0); 
                 int newRole = result.charAt(0) - '0';
                 sqlite.editRole(newRole, id);
+//                sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
                 this.init();
             }
         }
@@ -210,7 +216,10 @@ public class MgmtUser extends javax.swing.JPanel {
             int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + tableModel.getValueAt(table.getSelectedRow(), 1) + "?", "DELETE USER", JOptionPane.YES_NO_OPTION);
             
             if (result == JOptionPane.YES_OPTION) {
-                System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                if(sqlite.DEBUG_MODE == 1){
+                    JOptionPane.showMessageDialog(null, "User id " + tableModel.getValueAt(table.getSelectedRow(), 0) + " has been deleted.");
+                    System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                }
                 String username = tableModel.getValueAt(table.getSelectedRow(), 1).toString();
                 sqlite.removeUser(username);
                 this.init();
@@ -234,10 +243,16 @@ public class MgmtUser extends javax.swing.JPanel {
                 
                 if (userState == 0)   {
                     int newStatus = 1;
+                    if(sqlite.DEBUG_MODE == 1){
+                        JOptionPane.showMessageDialog(null, "User id " + tableModel.getValueAt(table.getSelectedRow(), 0) + " locked status set to " + newStatus);
+                    }
                     sqlite.lockUnlockUser(newStatus, id);
                     this.init();
                 } else {
                     int newStatus = 0;
+                    if(sqlite.DEBUG_MODE == 1){
+                        JOptionPane.showMessageDialog(null, "User id " + tableModel.getValueAt(table.getSelectedRow(), 0) + " locked status set to " + newStatus);
+                    }
                     sqlite.lockUnlockUser(newStatus, id);
                     this.init();
                 }                
@@ -263,8 +278,11 @@ public class MgmtUser extends javax.swing.JPanel {
             String pass2 = confpass.getText();
             if (pass.equals(pass2)){
                 if (result == JOptionPane.OK_OPTION) {
-                    System.out.println(password.getText());
-                    System.out.println(confpass.getText());
+                    if(sqlite.DEBUG_MODE == 1){
+                        JOptionPane.showMessageDialog(null, "User id " + tableModel.getValueAt(table.getSelectedRow(), 0) + " password changed to " + pass);
+                        System.out.println(password.getText());
+                        System.out.println(confpass.getText());
+                    }
                     sqlite.modPassword(username,pass);
                     this.init();
                 }
