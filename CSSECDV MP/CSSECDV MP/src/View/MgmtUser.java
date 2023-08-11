@@ -205,7 +205,7 @@ public class MgmtUser extends javax.swing.JPanel {
                 int id = (Integer) tableModel.getValueAt(table.getSelectedRow(), 0); 
                 int newRole = result.charAt(0) - '0';
                 sqlite.editRole(newRole, id);
-//                sqlite.addLogs("NOTICE", username, "login attempt unsuccessful", new Timestamp(new Date().getTime()).toString());
+                sqlite.addLogs("EDIT", tableModel.getValueAt(table.getSelectedRow(), 1).toString(), "Role modified", new Timestamp(new Date().getTime()).toString());
                 this.init();
             }
         }
@@ -221,6 +221,7 @@ public class MgmtUser extends javax.swing.JPanel {
                     System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
                 }
                 String username = tableModel.getValueAt(table.getSelectedRow(), 1).toString();
+                sqlite.addLogs("DELETE", tableModel.getValueAt(table.getSelectedRow(), 1).toString(), "User deleted", new Timestamp(new Date().getTime()).toString());
                 sqlite.removeUser(username);
                 this.init();
             }
@@ -246,6 +247,7 @@ public class MgmtUser extends javax.swing.JPanel {
                     if(sqlite.DEBUG_MODE == 1){
                         JOptionPane.showMessageDialog(null, "User id " + tableModel.getValueAt(table.getSelectedRow(), 0) + " locked status set to " + newStatus);
                     }
+                    sqlite.addLogs("EDIT", tableModel.getValueAt(table.getSelectedRow(), 1).toString(), "User locked", new Timestamp(new Date().getTime()).toString());
                     sqlite.lockUnlockUser(newStatus, id);
                     this.init();
                 } else {
@@ -253,6 +255,7 @@ public class MgmtUser extends javax.swing.JPanel {
                     if(sqlite.DEBUG_MODE == 1){
                         JOptionPane.showMessageDialog(null, "User id " + tableModel.getValueAt(table.getSelectedRow(), 0) + " locked status set to " + newStatus);
                     }
+                    sqlite.addLogs("EDIT", tableModel.getValueAt(table.getSelectedRow(), 1).toString(), "User unlocked", new Timestamp(new Date().getTime()).toString());
                     sqlite.lockUnlockUser(newStatus, id);
                     this.init();
                 }                
@@ -283,6 +286,7 @@ public class MgmtUser extends javax.swing.JPanel {
                         System.out.println(password.getText());
                         System.out.println(confpass.getText());
                     }
+                    sqlite.addLogs("EDIT", tableModel.getValueAt(table.getSelectedRow(), 1).toString(), "Password changed", new Timestamp(new Date().getTime()).toString());
                     sqlite.modPassword(username,pass);
                     this.init();
                 }
