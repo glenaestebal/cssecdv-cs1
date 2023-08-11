@@ -304,20 +304,12 @@ public class MgmtProduct extends javax.swing.JPanel {
                 txt.contains("commit ") || txt.contains("union ") || txt.contains("post ") ||
                 txt.contains("=") || txt.contains(";--") || txt.contains("\" or") ||
                 txt.contains("\' or") || txt.contains("char%") || txt.contains("&quot") ||
-<<<<<<< HEAD
-                txt.contains("&apos") || txt.contains(" ") || txt.contains("\" or \"\"=\""));
-    }
-
-    private boolean isNumeric(String str) {
-        return str.matches("\\d+(\\.\\d+)?");// Regular expression to match numbers only
-=======
                 txt.contains("&apos") || txt.contains(" ") || txt.contains("\" or \"\"=\"") || txt.contains("'") || txt.contains(".") || txt.contains("<") || txt.contains(">") ||
                 txt.contains("\""));
     }
 
     private boolean isNumeric(String str) {
         return str.matches("\\d+(\\.\\d+)?");
->>>>>>> alner-cs2
     }
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
