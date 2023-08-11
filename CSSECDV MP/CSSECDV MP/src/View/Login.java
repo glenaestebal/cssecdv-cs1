@@ -31,11 +31,41 @@ public class Login extends javax.swing.JPanel {
         usernameFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         usernameFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         usernameFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "USERNAME", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+	usernameFld.addKeyListener(new java.awt.event.KeyListener() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CheckUsername(evt);
+            }
+
+        });
 
         passwordFld.setBackground(new java.awt.Color(240, 240, 240));
         passwordFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         passwordFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         passwordFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "PASSWORD", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+	passwordFld.addKeyListener(new java.awt.event.KeyListener() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CheckPassword(evt);
+            }
+
+        });
 
         registerBtn.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         registerBtn.setText("REGISTER");
@@ -112,7 +142,7 @@ public class Login extends javax.swing.JPanel {
     }//GEN-LAST:event_loginBtnActionPerformed
 
     //Username Character Counter
-    private void CheckInput(java.awt.event.KeyEvent evt) {
+    private void CheckUsername(java.awt.event.KeyEvent evt) {
         //Getting text from Username Field
         String txt = usernameFld.getText().toLowerCase();
         //Counting Characters and Checking for SQL Statements
@@ -140,7 +170,7 @@ public class Login extends javax.swing.JPanel {
     }   
     
     //Password Character Counter
-    private void ScanInput(java.awt.event.KeyEvent evt) {
+    private void CheckPassword(java.awt.event.KeyEvent evt) {
         //Getting text from Password Field
         String txt = passwordFld.getText().toLowerCase();
         //Counting Characters and Checking for SQL Statements

@@ -32,26 +32,68 @@ public class ResetPassword extends javax.swing.JPanel {
                 confirmBtnActionPerformed(evt);
             }
         });
-
-        passwordFld.setBackground(new java.awt.Color(240, 240, 240));
-        passwordFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        passwordFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        passwordFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "NEW PASSWORD", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
-
         resetcodeFld.setBackground(new java.awt.Color(240, 240, 240));
         resetcodeFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         resetcodeFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         resetcodeFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "RESET CODE SENT TO EMAIL", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        resetcodeFld.addKeyListener(new java.awt.event.KeyListener() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("SECURITY Svcs");
-        jLabel1.setToolTipText("");
+            }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
 
+            }
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CheckResetcode(evt);
+            }
+
+        });
+        
+        passwordFld.setBackground(new java.awt.Color(240, 240, 240));
+        passwordFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        passwordFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        passwordFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "NEW PASSWORD", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        passwordFld.addKeyListener(new java.awt.event.KeyListener() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CheckPassword(evt);
+            }
+        });
+        
         confpassFld.setBackground(new java.awt.Color(240, 240, 240));
         confpassFld.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         confpassFld.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         confpassFld.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "CONFIRM NEW PASSWORD", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 12))); // NOI18N
+        confpassFld.addKeyListener(new java.awt.event.KeyListener() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+
+            }
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CheckConfirm(evt);
+            }
+        });
+              
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("SECURITY Svcs");
+        jLabel1.setToolTipText("");
 
         backBtn.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         backBtn.setText("<Back");
@@ -121,12 +163,12 @@ public class ResetPassword extends javax.swing.JPanel {
         }
         
         //If password is empty
-        if (confirm.isEmpty()) {
+        if (confirm.isEmpty() || !password.equals(confirm)) {
             jLabel1.setText("Confirm new password");
             resetcode = null;
             password = null;
             confirm = null;
-        }
+        }        
         
         //If username is taken
         if (!resetcode.equals("resetcode")) {       //Reset code is dummied for Demo Purposes
@@ -136,7 +178,10 @@ public class ResetPassword extends javax.swing.JPanel {
             confirm = null;
         } 
         
-        else{
+        if(resetcode.equals("resetcode") && password.equals(confirm)){
+            resetcodeFld.setText("");
+            passwordFld.setText("");
+            confpassFld.setText("");
             frame.resetAction(resetcode, password, confirm);
         }        
     }//GEN-LAST:event_registerBtnActionPerformed
@@ -149,6 +194,92 @@ public class ResetPassword extends javax.swing.JPanel {
         frame.loginNav();
     }//GEN-LAST:event_backBtnActionPerformed
 
+    //Username Character Counter
+    private void CheckResetcode(java.awt.event.KeyEvent evt) {
+        //Getting text from Username Field
+        String txt = resetcodeFld.getText().toLowerCase();
+        //Counting Characters and Checking for SQL Statements
+        boolean lock = false;
+        if(txt.length() > 21 || txt .contains("select ") || txt.contains( "insert " ) || txt.contains( "delete " ) || 
+                txt.contains( "update " ) || txt.contains( "create " ) || txt.contains( "drop " ) || 
+                txt.contains( "alter " ) || txt.contains( "truncate " ) || txt.contains( "merge " ) ||  
+                txt.contains( "grant " ) || txt.contains( "revoke " ) || txt.contains( "commit " ) || 
+                txt.contains( "union " ) || txt.contains( "post " ) || txt.contains( "=" ) || 
+                txt.contains( ";--" ) || txt.contains( "\" or" ) || txt.contains( "\' or" ) || 
+                txt.contains( "char%" ) || txt.contains( "&quot" ) || txt.contains( "&apos" ) || 
+                txt.contains( " \" or \"\"=\" " ))
+            lock = true;
+        
+        if (lock){
+            //Disable Confirm Button
+            jLabel1.setToolTipText("Invalid Input!");
+            confirmBtn.setEnabled(false);
+        }
+        
+        else{
+            //Enable Confirm Button
+            jLabel1.setToolTipText("");
+            confirmBtn.setEnabled(true);
+        }
+    }
+    
+    //Username Character Counter
+    private void CheckPassword(java.awt.event.KeyEvent evt) {
+        //Getting text from Username Field
+        String txt = passwordFld.getText().toLowerCase();
+        //Counting Characters and Checking for SQL Statements
+        boolean lock = false;
+        if(txt.length() > 21 || txt .contains("select ") || txt.contains( "insert " ) || txt.contains( "delete " ) || 
+                txt.contains( "update " ) || txt.contains( "create " ) || txt.contains( "drop " ) || 
+                txt.contains( "alter " ) || txt.contains( "truncate " ) || txt.contains( "merge " ) ||  
+                txt.contains( "grant " ) || txt.contains( "revoke " ) || txt.contains( "commit " ) || 
+                txt.contains( "union " ) || txt.contains( "post " ) || txt.contains( "=" ) || 
+                txt.contains( ";--" ) || txt.contains( "\" or" ) || txt.contains( "\' or" ) || 
+                txt.contains( "char%" ) || txt.contains( "&quot" ) || txt.contains( "&apos" ) || 
+                txt.contains( " \" or \"\"=\" " ))
+            lock = true;
+        
+        if (lock){
+            //Disable Confirm Button
+            jLabel1.setToolTipText("Invalid Input!");
+            confirmBtn.setEnabled(false);
+        }
+        
+        else{
+            //Enable Confirm Button
+            jLabel1.setToolTipText("");
+            confirmBtn.setEnabled(true);
+        }
+    }
+    
+    //Username Character Counter
+    private void CheckConfirm(java.awt.event.KeyEvent evt) {
+        //Getting text from Username Field
+        String txt = confpassFld.getText().toLowerCase();
+        //Counting Characters and Checking for SQL Statements
+        boolean lock = false;
+        if(txt.length() > 21 || txt .contains("select ") || txt.contains( "insert " ) || txt.contains( "delete " ) || 
+                txt.contains( "update " ) || txt.contains( "create " ) || txt.contains( "drop " ) || 
+                txt.contains( "alter " ) || txt.contains( "truncate " ) || txt.contains( "merge " ) ||  
+                txt.contains( "grant " ) || txt.contains( "revoke " ) || txt.contains( "commit " ) || 
+                txt.contains( "union " ) || txt.contains( "post " ) || txt.contains( "=" ) || 
+                txt.contains( ";--" ) || txt.contains( "\" or" ) || txt.contains( "\' or" ) || 
+                txt.contains( "char%" ) || txt.contains( "&quot" ) || txt.contains( "&apos" ) || 
+                txt.contains( " \" or \"\"=\" " ))
+            lock = true;
+        
+        if (lock){
+            //Disable Confirm Button
+            jLabel1.setToolTipText("Invalid Input!");
+            confirmBtn.setEnabled(false);
+        }
+        
+        else{
+            //Enable Confirm Button
+            jLabel1.setToolTipText("");
+            confirmBtn.setEnabled(true);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backBtn;
