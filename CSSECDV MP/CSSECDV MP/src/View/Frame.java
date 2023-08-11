@@ -383,10 +383,59 @@ public class Frame extends javax.swing.JFrame {
         }
         
     }
+    
+    public void resetAction(String resetcode, String password, String confirm){
+        int check = this.checkPassword(password);
+            //If confirmation is empty
+            switch(check){
+                case 1: 
+                    JOptionPane.showMessageDialog(null, "Password should have at least 8 characters");
+                    resetcode = null;
+                    password = null;
+                    confirm = null;
+                    break;
+                case 2: 
+                    JOptionPane.showMessageDialog(null, "Password should contain at least one uppercase letter"); 
+                    resetcode = null;
+                    password = null;
+                    confirm = null;
+                    break;
+                case 3: 
+                    JOptionPane.showMessageDialog(null, "Password should contain at least one lowercase letter"); 
+                    resetcode = null;
+                    password = null;
+                    confirm = null;
+                    break;
+                case 4: 
+                    JOptionPane.showMessageDialog(null, "Password should contain at least one numerical digit"); 
+                    resetcode = null;
+                    password = null;
+                    confirm = null;
+                    break;
+                case 5: 
+                    JOptionPane.showMessageDialog(null, "Password should contain at least one special character"); 
+                    resetcode = null;
+                    password = null;
+                    confirm = null;
+                    break;
+                case 6:
+                    resetPassword(this.username, password);
+                    main.sqlite.addLogs("NOTICE", this.username, "Changed password", main.sqlite.getCurrentTimeStamp());
+                    resetcode = null;
+                    password = null;
+                    confirm = null;
+                    this.loginNav();
+            }
+    }
+    
+    //Sets username for Password Reset
+    public void setUsername(String u){
+        this.username = u;
+    }
 
     //Gets username as a variable
     public String getUsername(){
-        return ((User) SessionManager.getInstance().get("user")).getUsername();
+        return this.username;
     }
 
      //Password Reset Request Page Navigation
@@ -431,4 +480,5 @@ public class Frame extends javax.swing.JFrame {
     private javax.swing.JButton staffBtn;
     // End of variables declaration//GEN-END:variables
 
+    private String username;
 }

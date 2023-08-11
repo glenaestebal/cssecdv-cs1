@@ -217,7 +217,7 @@ public class MgmtProduct extends javax.swing.JPanel {
                         //Purchase is recorded in History
                         sqlite.addHistory(this.user.getUsername(), product, qty, sqlite.getCurrentTimeStamp());
                         //Purchase is recorded in Logs
-                        sqlite.addLogs("PURCHASE", this.user.getUsername(), "Purchased " + product, sqlite.getCurrentTimeStamp());
+                        sqlite.addLogs("PURCHASE", this.user.getUsername(), "Purchased " + qty + product, sqlite.getCurrentTimeStamp());
                         //Reload Products
                         tableModel.fireTableDataChanged();
                         this.repaint();

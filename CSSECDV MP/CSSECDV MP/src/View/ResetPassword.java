@@ -2,6 +2,7 @@ package View;
 
 import Controller.SQLite;
 import javax.swing.JOptionPane;
+import Controller.SQLite;
 
 //This class is where the user can reset their password
 //It is assumed they gained the code from their email
@@ -105,83 +106,39 @@ public class ResetPassword extends javax.swing.JPanel {
         String resetcode = resetcodeFld.getText();
         String password = passwordFld.getText();
         String confirm = confpassFld.getText();
-
+        
         //If username is empty
         if (resetcode.isEmpty()) {
             jLabel1.setText("Enter reset code sent to your email");
         }
-
+        
+        //If password is empty
+        if (password.isEmpty()) {
+            jLabel1.setText("Enter a new password");
+            resetcode = null;
+            password = null;
+            confirm = null;
+        }
+        
+        //If password is empty
+        if (confirm.isEmpty()) {
+            jLabel1.setText("Confirm new password");
+            resetcode = null;
+            password = null;
+            confirm = null;
+        }
+        
         //If username is taken
         if (!resetcode.equals("resetcode")) {       //Reset code is dummied for Demo Purposes
             jLabel1.setText("Incorrect code");
             resetcode = null;
             password = null;
             confirm = null;
-        } else {
-            //If password is empty
-            if (password.isEmpty()) {
-                jLabel1.setText("Enter a new password");
-                resetcode = null;
-                password = null;
-                confirm = null;
-            }
-
-            else{
-                int check = frame.checkPassword(password);
-
-                //If confirmation is empty
-                switch(check){
-                    case 1: 
-                        JOptionPane.showMessageDialog(null, "Password should have at least 8 characters");
-                        resetcode = null;
-                        password = null;
-                        confirm = null;
-                        break;
-                    case 2: 
-                        JOptionPane.showMessageDialog(null, "Password should contain at least one uppercase letter"); 
-                        resetcode = null;
-                        password = null;
-                        confirm = null;
-                        break;
-                    case 3: 
-                       JOptionPane.showMessageDialog(null, "Password should contain at least one lowercase letter"); 
-                        resetcode = null;
-                        password = null;
-                        confirm = null;
-                        break;
-                    case 4: 
-                        JOptionPane.showMessageDialog(null, "Password should contain at least one numerical digit"); 
-                        resetcode = null;
-                        password = null;
-                        confirm = null;
-                        break;
-                    case 5: 
-                        JOptionPane.showMessageDialog(null, "Password should contain at least one special character"); 
-                        resetcode = null;
-                        password = null;
-                        confirm = null;
-                        break;
-                    case 6:
-                        if(confirm.isEmpty() || !(password.equals(confirm))){
-                            JOptionPane.showMessageDialog(null, "Confirm Password"); 
-                        }
-                        else{
-                        resetcodeFld.setText("");
-                        passwordFld.setText("");
-                        confpassFld.setText("");
-                        frame.resetPassword(frame.getUsername(), password);
-                        resetcode = null;
-                        password = null;
-                        confirm = null;
-                        frame.loginNav();
-                        }
-                }
-
-                
-            }
-            
-        }
-
+        } 
+        
+        else{
+            frame.resetAction(resetcode, password, confirm);
+        }        
     }//GEN-LAST:event_registerBtnActionPerformed
 
     private void backBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBtnActionPerformed
