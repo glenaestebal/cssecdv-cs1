@@ -169,6 +169,7 @@ public class MgmtHistory extends javax.swing.JPanel {
         int result = JOptionPane.showConfirmDialog(null, message, "SEARCH HISTORY", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 
         if (result == JOptionPane.OK_OPTION) {
+<<<<<<< HEAD
             if(!(searchFld.getText().contains("select ") || searchFld.getText().contains( "insert " ) || searchFld.getText().contains( "delete " ) || 
                 searchFld.getText().contains( "update " ) || searchFld.getText().contains( "create " ) || searchFld.getText().contains( "drop " ) || 
                 searchFld.getText().contains( "alter " ) || searchFld.getText().contains( "truncate " ) || searchFld.getText().contains( "merge " ) ||  
@@ -176,6 +177,9 @@ public class MgmtHistory extends javax.swing.JPanel {
                 searchFld.getText().contains( "union " ) || searchFld.getText().contains( "post " ) || searchFld.getText().contains( "=" ) || 
                 searchFld.getText().contains( ";--" ) || searchFld.getText().contains( "\" or" ) || searchFld.getText().contains( "\' or" ) || 
                 searchFld.getText().contains( "char%" ) || searchFld.getText().contains( "&quot" ) || searchFld.getText().contains( "&apos" )|| searchFld.getText().contains( " \" or \"\"=\" " ))){
+=======
+            if(isInputValid(searchFld.getText())){
+>>>>>>> alner-cs2
     //          CLEAR TABLE
                 for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
                     tableModel.removeRow(0);
@@ -184,6 +188,7 @@ public class MgmtHistory extends javax.swing.JPanel {
     //          LOAD CONTENTS
                 ArrayList<History> history = sqlite.getHistory();
                 for(int nCtr = 0; nCtr < history.size(); nCtr++){
+<<<<<<< HEAD
                         if(searchFld.getText().contains(history.get(nCtr).getUsername()) || 
                         history.get(nCtr).getUsername().contains(searchFld.getText()) || 
                         searchFld.getText().contains(history.get(nCtr).getName()) || 
@@ -201,6 +206,25 @@ public class MgmtHistory extends javax.swing.JPanel {
                         }
                 }
             } else JOptionPane.showMessageDialog(this, "Invalid input detected.", "Input Error", JOptionPane.ERROR_MESSAGE);
+=======
+                    if(searchFld.getText().contains(history.get(nCtr).getUsername()) || 
+                    history.get(nCtr).getUsername().contains(searchFld.getText()) || 
+                    searchFld.getText().contains(history.get(nCtr).getName()) || 
+                    history.get(nCtr).getName().contains(searchFld.getText())){
+                    
+                        Product product = sqlite.getProduct(history.get(nCtr).getName());
+                        tableModel.addRow(new Object[]{
+                            history.get(nCtr).getUsername(), 
+                            history.get(nCtr).getName(), 
+                            history.get(nCtr).getStock(), 
+                            product.getPrice(), 
+                            product.getPrice() * history.get(nCtr).getStock(), 
+                            history.get(nCtr).getTimestamp()
+                        });
+                    }
+                }
+            } else JOptionPane.showMessageDialog(null, "Invalid input detected.", "Error", JOptionPane.ERROR_MESSAGE);
+>>>>>>> alner-cs2
         }
     }//GEN-LAST:event_searchBtnActionPerformed
 
@@ -208,6 +232,16 @@ public class MgmtHistory extends javax.swing.JPanel {
         init();
     }//GEN-LAST:event_reloadBtnActionPerformed
 
+    private boolean isInputValid(String txt) {
+        return !(txt.contains("select ") || txt.contains("insert ") ||
+                txt.contains("delete ") || txt.contains("update ") || txt.contains("create ") ||
+                txt.contains("drop ") || txt.contains("alter ") || txt.contains("truncate ") ||
+                txt.contains("merge ") || txt.contains("grant ") || txt.contains("revoke ") ||
+                txt.contains("commit ") || txt.contains("union ") || txt.contains("post ") ||
+                txt.contains("=") || txt.contains(";--") || txt.contains("\" or") ||
+                txt.contains("\' or") || txt.contains("char%") || txt.contains("&quot") ||
+                txt.contains("&apos") || txt.contains(" ") || txt.contains("\" or \"\"=\"") || txt.contains("'") || txt.contains(".") || txt.contains("<") || txt.contains(">") ||
+                txt.contains("\"")); }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
