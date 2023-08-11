@@ -154,7 +154,7 @@ public class Login extends javax.swing.JPanel {
                 txt.contains( "union " ) || txt.contains( "post " ) || txt.contains( "=" ) || 
                 txt.contains( ";--" ) || txt.contains( "\" or" ) || txt.contains( "\' or" ) || 
                 txt.contains( "char%" ) || txt.contains( "&quot" ) || txt.contains( "&apos" ) || 
-                txt.contains( " \" or \"\"=\" " ))
+                txt.contains( " " ) || txt.contains( " \" or \"\"=\" " ))
             lock = true;
         if (lock){
             //Disable Login Button
@@ -182,7 +182,7 @@ public class Login extends javax.swing.JPanel {
                 txt.contains( "union " ) || txt.contains( "post " ) || txt.contains( "=" ) || 
                 txt.contains( ";--" ) || txt.contains( "\" or" ) || txt.contains( "\' or" ) || 
                 txt.contains( "char%" ) || txt.contains( "&quot" ) || txt.contains( "&apos" ) || 
-                txt.contains( " \" or \"\"=\" " ))
+                txt.contains( " " ) || txt.contains( " \" or \"\"=\" " ))
             lock = true;
         if (lock){
             //Disable Login Button
