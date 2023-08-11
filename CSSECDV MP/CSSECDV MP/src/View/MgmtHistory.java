@@ -169,30 +169,38 @@ public class MgmtHistory extends javax.swing.JPanel {
         int result = JOptionPane.showConfirmDialog(null, message, "SEARCH HISTORY", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 
         if (result == JOptionPane.OK_OPTION) {
-//          CLEAR TABLE
-            for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
-                tableModel.removeRow(0);
-            }
-
-//          LOAD CONTENTS
-            ArrayList<History> history = sqlite.getHistory();
-            for(int nCtr = 0; nCtr < history.size(); nCtr++){
-                if(searchFld.getText().contains(history.get(nCtr).getUsername()) || 
-                   history.get(nCtr).getUsername().contains(searchFld.getText()) || 
-                   searchFld.getText().contains(history.get(nCtr).getName()) || 
-                   history.get(nCtr).getName().contains(searchFld.getText())){
-                
-                    Product product = sqlite.getProduct(history.get(nCtr).getName());
-                    tableModel.addRow(new Object[]{
-                        history.get(nCtr).getUsername(), 
-                        history.get(nCtr).getName(), 
-                        history.get(nCtr).getStock(), 
-                        product.getPrice(), 
-                        product.getPrice() * history.get(nCtr).getStock(), 
-                        history.get(nCtr).getTimestamp()
-                    });
+            if(!(searchFld.getText().contains("select ") || searchFld.getText().contains( "insert " ) || searchFld.getText().contains( "delete " ) || 
+                searchFld.getText().contains( "update " ) || searchFld.getText().contains( "create " ) || searchFld.getText().contains( "drop " ) || 
+                searchFld.getText().contains( "alter " ) || searchFld.getText().contains( "truncate " ) || searchFld.getText().contains( "merge " ) ||  
+                searchFld.getText().contains( "grant " ) || searchFld.getText().contains( "revoke " ) || searchFld.getText().contains( "commit " ) || 
+                searchFld.getText().contains( "union " ) || searchFld.getText().contains( "post " ) || searchFld.getText().contains( "=" ) || 
+                searchFld.getText().contains( ";--" ) || searchFld.getText().contains( "\" or" ) || searchFld.getText().contains( "\' or" ) || 
+                searchFld.getText().contains( "char%" ) || searchFld.getText().contains( "&quot" ) || searchFld.getText().contains( "&apos" )|| searchFld.getText().contains( " \" or \"\"=\" " ))){
+    //          CLEAR TABLE
+                for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
+                    tableModel.removeRow(0);
                 }
-            }
+
+    //          LOAD CONTENTS
+                ArrayList<History> history = sqlite.getHistory();
+                for(int nCtr = 0; nCtr < history.size(); nCtr++){
+                        if(searchFld.getText().contains(history.get(nCtr).getUsername()) || 
+                        history.get(nCtr).getUsername().contains(searchFld.getText()) || 
+                        searchFld.getText().contains(history.get(nCtr).getName()) || 
+                        history.get(nCtr).getName().contains(searchFld.getText())){
+                        
+                            Product product = sqlite.getProduct(history.get(nCtr).getName());
+                            tableModel.addRow(new Object[]{
+                                history.get(nCtr).getUsername(), 
+                                history.get(nCtr).getName(), 
+                                history.get(nCtr).getStock(), 
+                                product.getPrice(), 
+                                product.getPrice() * history.get(nCtr).getStock(), 
+                                history.get(nCtr).getTimestamp()
+                            });
+                        }
+                }
+            } else JOptionPane.showMessageDialog(this, "Invalid input detected.", "Input Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_searchBtnActionPerformed
 

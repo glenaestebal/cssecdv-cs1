@@ -243,18 +243,19 @@ public class MgmtProduct extends javax.swing.JPanel {
         int result = JOptionPane.showConfirmDialog(null, message, "ADD PRODUCT", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 
         if (result == JOptionPane.OK_OPTION) {
-            System.out.println(nameFld.getText());
-            System.out.println(stockFld.getText());
-            System.out.println(priceFld.getText());
-
-            String addProductName = nameFld.getText();
-            int addProductStock = Integer.parseInt(stockFld.getText());
-            double addProductPrice = Float.parseFloat(priceFld.getText());
-            
-            sqlite.addProduct(addProductName, addProductStock, addProductPrice);
-            sqlite.addLogs("ADD", this.user.getUsername(), "Added product " + addProductName + " successfully", sqlite.getCurrentTimeStamp());
-            this.init();
+             if(isInputValid(nameFld.getText()) && isNumeric(stockFld.getText()) && isInputValid(stockFld.getText()) && isNumeric(priceFld.getText()) && isInputValid(priceFld.getText()) ){
+                System.out.println(nameFld.getText());
+                System.out.println(stockFld.getText());
+                System.out.println(priceFld.getText());
                 
+                String addProductName = nameFld.getText();
+                int addProductStock = Integer.parseInt(stockFld.getText());
+                double addProductPrice = Float.parseFloat(priceFld.getText());
+                
+                sqlite.addProduct(addProductName, addProductStock, addProductPrice);
+                sqlite.addLogs("ADD", this.user.getUsername(), "Added product " + addProductName + " successfully", sqlite.getCurrentTimeStamp());
+                this.init();
+            } else JOptionPane.showMessageDialog(null, "Invalid input detected.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_addBtnActionPerformed
 
@@ -275,22 +276,40 @@ public class MgmtProduct extends javax.swing.JPanel {
             int result = JOptionPane.showConfirmDialog(null, message, "EDIT PRODUCT", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 
             if (result == JOptionPane.OK_OPTION) {
-                int id = (Integer) tableModel.getValueAt(table.getSelectedRow(), 0);
-                System.out.println(nameFld.getText());
-                System.out.println(stockFld.getText());
-                System.out.println(priceFld.getText());
-               
+                if(isInputValid(nameFld.getText()) && isNumeric(stockFld.getText()) && isInputValid(stockFld.getText()) && isNumeric(priceFld.getText()) && isInputValid(priceFld.getText()) ){
+                    int id = (Integer) tableModel.getValueAt(table.getSelectedRow(), 0);
+                    System.out.println(nameFld.getText());
+                    System.out.println(stockFld.getText());
+                    System.out.println(priceFld.getText());
                 
-                String newProductName = nameFld.getText();
-                int newProductStock = Integer.parseInt(stockFld.getText());
-                double newProductPrice = Float.parseFloat(priceFld.getText());
-                sqlite.editProduct(newProductName, newProductStock, 
-                        newProductPrice,  id);
-                sqlite.addLogs("EDIT", this.user.getUsername(), "Updated product " + newProductName + " information successfully", sqlite.getCurrentTimeStamp());
-                this.init();
+                    
+                    String newProductName = nameFld.getText();
+                    int newProductStock = Integer.parseInt(stockFld.getText());
+                    double newProductPrice = Float.parseFloat(priceFld.getText());
+                    sqlite.editProduct(newProductName, newProductStock, 
+                            newProductPrice,  id);
+                    sqlite.addLogs("EDIT", this.user.getUsername(), "Updated product " + newProductName + " information successfully", sqlite.getCurrentTimeStamp());
+                    this.init();
+                } else JOptionPane.showMessageDialog(null, "Invalid input detected.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_editBtnActionPerformed
+
+    //for sanitation
+    private boolean isInputValid(String txt) {
+        return !(txt.contains("select ") || txt.contains("insert ") ||
+                txt.contains("delete ") || txt.contains("update ") || txt.contains("create ") ||
+                txt.contains("drop ") || txt.contains("alter ") || txt.contains("truncate ") ||
+                txt.contains("merge ") || txt.contains("grant ") || txt.contains("revoke ") ||
+                txt.contains("commit ") || txt.contains("union ") || txt.contains("post ") ||
+                txt.contains("=") || txt.contains(";--") || txt.contains("\" or") ||
+                txt.contains("\' or") || txt.contains("char%") || txt.contains("&quot") ||
+                txt.contains("&apos") || txt.contains(" ") || txt.contains("\" or \"\"=\""));
+    }
+
+    private boolean isNumeric(String str) {
+        return str.matches("\\d+"); // Regular expression to match numbers only
+    }
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         if(table.getSelectedRow() >= 0){
