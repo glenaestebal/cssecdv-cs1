@@ -152,6 +152,9 @@ public class ResetPassword extends javax.swing.JPanel {
         //If username is empty
         if (resetcode.isEmpty()) {
             jLabel1.setText("Enter reset code sent to your email");
+            resetcode = null;
+            password = null;
+            confirm = null;
         }
         
         //If password is empty

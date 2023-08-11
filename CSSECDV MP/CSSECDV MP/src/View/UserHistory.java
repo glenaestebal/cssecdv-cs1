@@ -47,8 +47,8 @@ public class UserHistory extends javax.swing.JPanel {
         table.getColumnModel().getColumn(5).setCellRenderer(rightAlign);
         
 //        UNCOMMENT TO DISABLE BUTTONS
-//        searchBtn.setVisible(false);
-//        reportBtn.setVisible(false);
+        searchBtn.setVisible(false);
+        reloadBtn.setVisible(false);
     }
 
     public void init(){

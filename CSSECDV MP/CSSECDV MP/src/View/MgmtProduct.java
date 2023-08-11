@@ -217,10 +217,10 @@ public class MgmtProduct extends javax.swing.JPanel {
                         //Purchase is recorded in History
                         sqlite.addHistory(this.user.getUsername(), product, qty, sqlite.getCurrentTimeStamp());
                         //Purchase is recorded in Logs
-                        sqlite.addLogs("PURCHASE", this.user.getUsername(), "Purchased " + qty + product, sqlite.getCurrentTimeStamp());
+                        sqlite.addLogs("PURCHASE", this.user.getUsername(), "Purchased " + qty + " of " + product, sqlite.getCurrentTimeStamp());
                         //Reload Products
                         tableModel.fireTableDataChanged();
-                        this.repaint();
+                        this.init();
                     }
                 }
             }
@@ -252,7 +252,7 @@ public class MgmtProduct extends javax.swing.JPanel {
             double addProductPrice = Float.parseFloat(priceFld.getText());
             
             sqlite.addProduct(addProductName, addProductStock, addProductPrice);
-            sqlite.addLogs("ADD", this.user.getUsername(), "Added a product successfully", sqlite.getCurrentTimeStamp());
+            sqlite.addLogs("ADD", this.user.getUsername(), "Added product " + addProductName + " successfully", sqlite.getCurrentTimeStamp());
             this.init();
                 
         }
@@ -286,7 +286,7 @@ public class MgmtProduct extends javax.swing.JPanel {
                 double newProductPrice = Float.parseFloat(priceFld.getText());
                 sqlite.editProduct(newProductName, newProductStock, 
                         newProductPrice,  id);
-                sqlite.addLogs("EDIT", this.user.getUsername(), "Updated a product information successfully", sqlite.getCurrentTimeStamp());
+                sqlite.addLogs("EDIT", this.user.getUsername(), "Updated product " + newProductName + " information successfully", sqlite.getCurrentTimeStamp());
                 this.init();
             }
         }
@@ -299,11 +299,10 @@ public class MgmtProduct extends javax.swing.JPanel {
             int id = (Integer) tableModel.getValueAt(table.getSelectedRow(), 0);
             if (result == JOptionPane.YES_OPTION) {
                 System.out.println(tableModel.getValueAt(table.getSelectedRow(), 0));
+                sqlite.addLogs("DELETE", this.user.getUsername(), "Deleted product " + tableModel.getValueAt(table.getSelectedRow(),1).toString() + " successfully", sqlite.getCurrentTimeStamp());
                 sqlite.deleteProduct(id);
-                sqlite.addLogs("DELETE", this.user.getUsername(), "Deleted a product successfully", sqlite.getCurrentTimeStamp());
                 this.init();
             }
-           
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
