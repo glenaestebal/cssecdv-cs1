@@ -177,21 +177,23 @@ public class MgmtHistory extends javax.swing.JPanel {
 //          LOAD CONTENTS
             ArrayList<History> history = sqlite.getHistory();
             for(int nCtr = 0; nCtr < history.size(); nCtr++){
-                if(searchFld.getText().contains(history.get(nCtr).getUsername()) || 
-                   history.get(nCtr).getUsername().contains(searchFld.getText()) || 
-                   searchFld.getText().contains(history.get(nCtr).getName()) || 
-                   history.get(nCtr).getName().contains(searchFld.getText())){
-                
-                    Product product = sqlite.getProduct(history.get(nCtr).getName());
-                    tableModel.addRow(new Object[]{
-                        history.get(nCtr).getUsername(), 
-                        history.get(nCtr).getName(), 
-                        history.get(nCtr).getStock(), 
-                        product.getPrice(), 
-                        product.getPrice() * history.get(nCtr).getStock(), 
-                        history.get(nCtr).getTimestamp()
-                    });
-                }
+                if(isInputValid(searchFld.getText())){
+                    if(searchFld.getText().contains(history.get(nCtr).getUsername()) || 
+                    history.get(nCtr).getUsername().contains(searchFld.getText()) || 
+                    searchFld.getText().contains(history.get(nCtr).getName()) || 
+                    history.get(nCtr).getName().contains(searchFld.getText())){
+                    
+                        Product product = sqlite.getProduct(history.get(nCtr).getName());
+                        tableModel.addRow(new Object[]{
+                            history.get(nCtr).getUsername(), 
+                            history.get(nCtr).getName(), 
+                            history.get(nCtr).getStock(), 
+                            product.getPrice(), 
+                            product.getPrice() * history.get(nCtr).getStock(), 
+                            history.get(nCtr).getTimestamp()
+                        });
+                    }
+                } else JOptionPane.showMessageDialog(null, "Invalid input detected.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_searchBtnActionPerformed
@@ -200,6 +202,16 @@ public class MgmtHistory extends javax.swing.JPanel {
         init();
     }//GEN-LAST:event_reloadBtnActionPerformed
 
+    private boolean isInputValid(String txt) {
+        return !(txt.contains("select ") || txt.contains("insert ") ||
+                txt.contains("delete ") || txt.contains("update ") || txt.contains("create ") ||
+                txt.contains("drop ") || txt.contains("alter ") || txt.contains("truncate ") ||
+                txt.contains("merge ") || txt.contains("grant ") || txt.contains("revoke ") ||
+                txt.contains("commit ") || txt.contains("union ") || txt.contains("post ") ||
+                txt.contains("=") || txt.contains(";--") || txt.contains("\" or") ||
+                txt.contains("\' or") || txt.contains("char%") || txt.contains("&quot") ||
+                txt.contains("&apos") || txt.contains(" ") || txt.contains("\" or \"\"=\"") || txt.contains("'") || txt.contains(".") || txt.contains("<") || txt.contains(">") ||
+                txt.contains("\"")); }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
