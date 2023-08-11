@@ -276,7 +276,7 @@ public class MgmtProduct extends javax.swing.JPanel {
             int result = JOptionPane.showConfirmDialog(null, message, "EDIT PRODUCT", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 
             if (result == JOptionPane.OK_OPTION) {
-                if(isInputValid(nameFld.getText()) && isNumeric(stockFld.getText()) && isInputValid(stockFld.getText()) && isNumeric(priceFld.getText()) && isInputValid(priceFld.getText()) ){
+                if(isInputValid(nameFld.getText()) && isNumeric(stockFld.getText()) && isInputValid(stockFld.getText()) && isNumeric(priceFld.getText()) && isInputValid(priceFld.getText())){
                     int id = (Integer) tableModel.getValueAt(table.getSelectedRow(), 0);
                     System.out.println(nameFld.getText());
                     System.out.println(stockFld.getText());
@@ -304,7 +304,7 @@ public class MgmtProduct extends javax.swing.JPanel {
                 txt.contains("commit ") || txt.contains("union ") || txt.contains("post ") ||
                 txt.contains("=") || txt.contains(";--") || txt.contains("\" or") ||
                 txt.contains("\' or") || txt.contains("char%") || txt.contains("&quot") ||
-                txt.contains("&apos") || txt.contains(" ") || txt.contains("\" or \"\"=\"") || txt.contains("'") || txt.contains(".") || txt.contains("<") || txt.contains(">") ||
+                txt.contains("&apos") || txt.contains("\" or \"\"=\"") || txt.contains("'") || txt.contains("<") || txt.contains(">") ||
                 txt.contains("\""));
     }
 
