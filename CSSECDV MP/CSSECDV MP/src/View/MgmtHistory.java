@@ -169,15 +169,15 @@ public class MgmtHistory extends javax.swing.JPanel {
         int result = JOptionPane.showConfirmDialog(null, message, "SEARCH HISTORY", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 
         if (result == JOptionPane.OK_OPTION) {
-//          CLEAR TABLE
-            for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
-                tableModel.removeRow(0);
-            }
+            if(isInputValid(searchFld.getText())){
+    //          CLEAR TABLE
+                for(int nCtr = tableModel.getRowCount(); nCtr > 0; nCtr--){
+                    tableModel.removeRow(0);
+                }
 
-//          LOAD CONTENTS
-            ArrayList<History> history = sqlite.getHistory();
-            for(int nCtr = 0; nCtr < history.size(); nCtr++){
-                if(isInputValid(searchFld.getText())){
+    //          LOAD CONTENTS
+                ArrayList<History> history = sqlite.getHistory();
+                for(int nCtr = 0; nCtr < history.size(); nCtr++){
                     if(searchFld.getText().contains(history.get(nCtr).getUsername()) || 
                     history.get(nCtr).getUsername().contains(searchFld.getText()) || 
                     searchFld.getText().contains(history.get(nCtr).getName()) || 
@@ -193,8 +193,8 @@ public class MgmtHistory extends javax.swing.JPanel {
                             history.get(nCtr).getTimestamp()
                         });
                     }
-                } else JOptionPane.showMessageDialog(null, "Invalid input detected.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+                }
+            } else JOptionPane.showMessageDialog(null, "Invalid input detected.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_searchBtnActionPerformed
 
