@@ -381,6 +381,17 @@ public class SQLite {
             System.out.print(ex);
         }
     }
+    
+    public void editRole (int newRole, int id)   {
+        String sql = "UPDATE users SET role = " + newRole + " WHERE id = " + id;
+
+        try (Connection conn = DriverManager.getConnection(driverURL);
+            Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
+        } catch (Exception ex) {
+            System.out.print(ex);
+        }
+    }
 
     //Checks Password Complexity
     public int isPasswordComplex(String password) {
